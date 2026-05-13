@@ -1,7 +1,32 @@
+import fs from "node:fs";
+import path from "node:path";
 import { defineConfig } from "vite";
+
+function copyStaticAssets() {
+  return {
+    name: "copy-static-assets",
+    closeBundle() {
+      const rootDir = process.cwd();
+      const distDir = path.join(rootDir, "dist");
+      const staticEntries = ["img", "favicon.svg", "icons.svg"];
+
+      for (const entry of staticEntries) {
+        const source = path.join(rootDir, entry);
+        const target = path.join(distDir, entry);
+
+        if (!fs.existsSync(source)) continue;
+
+        fs.cpSync(source, target, {
+          recursive: true
+        });
+      }
+    }
+  };
+}
 
 export default defineConfig({
   base: "./",
+  plugins: [copyStaticAssets()],
   server: {
     host: "0.0.0.0",
     port: 5173
