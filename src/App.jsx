@@ -2,25 +2,23 @@ import { useState } from 'react'
 import './App.css'
 
 const m = {
-  clinicName: 'Lanner Especialidades',
   doctorName: 'Dr. Rafael Rocha',
   crm: 'CRM/DF 31.365',
   specialty: 'Ortopedista e Traumatologista em Brasília',
-  phone: '(61) 99919-0221',
   whatsapp: '5561991900221',
   city: 'Brasília',
   state: 'DF',
   address: 'Rua 5 Norte, Lote 3 - Águas Claras, Brasília - DF, CEP: 71907-720, Sala 411',
   hours: 'Seg–Sex: 08h–18h',
   googleRating: '5.0',
-  googleReviews: '11',
   stats: { procedures: '5.000', surgeries: '500', patients: '3.000', specialties: '14' },
   doctorPhoto: './img/foto-sem-fundo.png',
   symbol: './img/simbolo.jpg',
   logoHorizontal: './img/logo-horizontal.jpg',
 }
 
-const WA_URL = `https://wa.me/${m.whatsapp}?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20o%20${encodeURIComponent(m.doctorName)}.`
+const leadMessage = ({ name, phone }) =>
+  `Olá! Gostaria de agendar uma consulta com o ${m.doctorName}.\n\nNome: ${name}\nTelefone: ${phone}`
 
 // Cores
 const COLOR_DARK = '#1a2a35'
@@ -94,9 +92,7 @@ function BtnWA({ children, className = '', size = 'md' }) {
   const pad = size === 'lg' ? 'px-8 py-4 text-base' : 'px-5 py-2.5 text-sm'
   return (
     <a
-      href={WA_URL}
-      target="_blank"
-      rel="noopener noreferrer"
+      href="#agendamento"
       className={`inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl ${pad} ${className}`}
     >
       <WhatsAppIcon />
@@ -109,10 +105,10 @@ function BtnWA({ children, className = '', size = 'md' }) {
 function Header() {
   const [open, setOpen] = useState(false)
   const links = [
-    { href: '#sobre', label: 'Sobre' },
     { href: '#especialidades', label: 'Especialidades' },
     { href: '#procedimentos', label: 'Procedimentos' },
     { href: '#depoimentos', label: 'Depoimentos' },
+    { href: '#localizacao', label: 'Localização' },
     { href: '#faq', label: 'FAQ' },
   ]
   return (
@@ -163,7 +159,7 @@ function Header() {
 function Hero() {
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-end overflow-hidden"
       style={{ backgroundColor: COLOR_DARKER }}
     >
       {/* Background textura */}
@@ -180,23 +176,30 @@ function Hero() {
       <div
         className="absolute inset-0 hidden lg:block"
         style={{
-          background: `linear-gradient(to right, ${COLOR_DARKER} 30%, rgba(27,74,107,0.5) 55%, rgba(91,180,208,0.18) 80%, rgba(140,210,235,0.12) 100%)`,
+          background: `linear-gradient(to right, ${COLOR_DARKER} 0%, rgba(15,30,40,0.94) 42%, rgba(27,74,107,0.68) 66%, rgba(91,180,208,0.24) 88%, rgba(140,210,235,0.16) 100%)`,
+        }}
+      />
+      {/* Gradiente curto somente na área da foto */}
+      <div
+        className="absolute inset-y-0 right-0 hidden w-[54%] lg:block"
+        style={{
+          background: `linear-gradient(to left, rgba(15,30,40,0.72) 0%, rgba(27,74,107,0.24) 18%, rgba(140,210,235,0.22) 34%, rgba(140,210,235,0) 52%)`,
         }}
       />
       {/* Gradiente mobile: overlay suave */}
       <div
         className="absolute inset-0 lg:hidden"
         style={{
-          background: `linear-gradient(to bottom, rgba(15,30,40,0.75) 0%, rgba(15,30,40,0.55) 100%)`,
+          background: `linear-gradient(to bottom, rgba(15,30,40,0.86) 0%, rgba(15,30,40,0.62) 46%, rgba(91,180,208,0.22) 100%)`,
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:pt-0 lg:pb-14 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-0 lg:pt-0 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-end">
           {/* Texto */}
-          <div className="order-2 lg:order-1">
+          <div className="order-1 lg:order-1 pb-12 lg:pb-24">
             <span className="inline-block text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: COLOR_BLUE_LIGHT }}>
-              {m.clinicName}
+              Tratamento ortopédico especializado
             </span>
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-6">
               Ortopedista e<br />
@@ -214,13 +217,7 @@ function Hero() {
                 </span>
               ))}
             </div>
-            <div className="flex flex-wrap gap-4">
-              <BtnWA size="lg">Agende sua Consulta</BtnWA>
-              <a href={`tel:${m.phone}`} className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-4 rounded-lg transition-all border border-white/20">
-                <PhoneIcon />
-                {m.phone}
-              </a>
-            </div>
+            <LeadForm className="mt-8 max-w-xl" />
 
             {/* Rating */}
             <div className="mt-8 flex items-center gap-4">
@@ -228,12 +225,12 @@ function Hero() {
                 {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
               </div>
               <span className="text-white font-semibold">{m.googleRating}</span>
-              <span className="text-gray-400 text-sm">{m.googleReviews} avaliações verificadas</span>
+              <span className="text-gray-400 text-sm">Doctoralia</span>
             </div>
           </div>
 
           {/* Foto */}
-          <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div className="order-2 lg:order-2 flex justify-center lg:justify-end self-end">
             <div className="relative">
               <div
                 className="absolute inset-0 rounded-3xl opacity-30"
@@ -242,16 +239,21 @@ function Hero() {
               <img
                 src={m.doctorPhoto}
                 alt={m.doctorName}
-                className="relative z-10 max-h-[550px] w-auto object-contain"
+                className="relative z-10 translate-y-10 lg:translate-y-16 max-h-[620px] lg:max-h-[680px] xl:max-h-[760px] w-auto object-contain"
               />
               {/* Badge CRM */}
               <div
-                className="absolute bottom-4 left-4 z-10 px-4 py-2 rounded-xl text-white"
-                style={{ backgroundColor: COLOR_CARD }}
+                className="absolute bottom-8 left-10 lg:left-24 z-10 px-5 py-3 rounded-xl border"
+                style={{
+                  backgroundColor: '#c9eef5',
+                  color: COLOR_DARKER,
+                  borderColor: 'rgba(255,255,255,0.45)',
+                  boxShadow: '0 22px 48px rgba(2, 18, 27, 0.32), 0 8px 18px rgba(91, 180, 208, 0.22)',
+                }}
               >
-                <p className="font-bold text-xl lg:text-2xl" style={{ color: COLOR_BLUE_LIGHT }}>{m.doctorName}</p>
-                <p className="text-gray-300 font-medium text-base mt-0.5">{m.specialty}</p>
-                <p className="text-gray-500 text-sm mt-0.5">{m.crm}</p>
+                <p className="font-bold text-xl lg:text-2xl" style={{ color: COLOR_BLUE_DEEP }}>{m.doctorName}</p>
+                <p className="font-semibold text-base mt-0.5" style={{ color: COLOR_DARK }}>{m.specialty}</p>
+                <p className="text-sm mt-0.5" style={{ color: '#47616b' }}>{m.crm}</p>
               </div>
             </div>
           </div>
@@ -260,9 +262,7 @@ function Hero() {
 
       {/* WhatsApp fixo mobile */}
       <a
-        href={WA_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+        href="#agendamento"
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-center gap-2 bg-green-600 text-white font-semibold py-4 text-base shadow-xl"
       >
         <WhatsAppIcon className="w-6 h-6" />
@@ -281,15 +281,90 @@ function Stats() {
     { value: `+${m.stats.patients}`, label: 'Pacientes Atendidos' },
   ]
   return (
-    <section style={{ backgroundColor: COLOR_DARK }} className="py-12">
+    <section style={{ backgroundColor: COLOR_DARK }} className="relative z-10 -mt-6 lg:-mt-10 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map(s => (
-            <div key={s.label} className="text-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+          {stats.map((s, index) => (
+            <div
+              key={s.label}
+              className={`text-center min-h-28 flex flex-col items-center justify-center px-4 py-4 border-white/10 ${index % 2 === 0 ? 'border-r' : ''} ${index < 2 ? 'border-b' : ''} lg:border-b-0 ${index < stats.length - 1 ? 'lg:border-r' : 'lg:border-r-0'}`}
+            >
               <p className="text-3xl lg:text-4xl font-bold" style={{ color: COLOR_BLUE_LIGHT }}>{s.value}</p>
               <p className="text-gray-400 text-sm mt-1">{s.label}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function LeadForm({ className = '' }) {
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    const url = `https://wa.me/${m.whatsapp}?text=${encodeURIComponent(leadMessage({ name, phone }))}`
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
+  return (
+    <form
+      id="agendamento"
+      onSubmit={handleSubmit}
+      className={`rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm ${className}`}
+    >
+      <p className="text-white font-semibold mb-3">Preencha para iniciar o atendimento</p>
+      <div className="grid sm:grid-cols-2 gap-3">
+        <label className="sr-only" htmlFor="lead-name">Nome</label>
+        <input
+          id="lead-name"
+          required
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          placeholder="Seu nome"
+          className="min-h-12 rounded-lg border border-white/20 bg-white px-4 text-gray-900 outline-none focus:ring-2 focus:ring-green-500"
+        />
+        <label className="sr-only" htmlFor="lead-phone">Telefone</label>
+        <input
+          id="lead-phone"
+          required
+          value={phone}
+          onChange={(event) => setPhone(event.target.value)}
+          placeholder="Seu telefone"
+          inputMode="tel"
+          className="min-h-12 rounded-lg border border-white/20 bg-white px-4 text-gray-900 outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+      <button
+        type="submit"
+        className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:bg-green-700"
+      >
+        <WhatsAppIcon />
+        Enviar e continuar pelo WhatsApp
+      </button>
+    </form>
+  )
+}
+
+function DoctoraliaBand() {
+  return (
+    <section className="py-10" style={{ backgroundColor: COLOR_DARK }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 rounded-2xl p-6 text-center"
+          style={{ backgroundColor: '#d0f1eb', color: '#1a2730' }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="text-5xl font-bold" style={{ color: COLOR_BLUE_DEEP }}>{m.googleRating}</div>
+            <div>
+              <div className="flex gap-0.5 justify-center sm:justify-start">{[...Array(5)].map((_, i) => <StarIcon key={i} />)}</div>
+              <p className="text-sm font-medium mt-0.5">Nota no Doctoralia</p>
+            </div>
+          </div>
+          <div className="hidden sm:block w-px h-12 bg-gray-300" />
+          <p className="text-lg font-bold">Pacientes recomendam o atendimento do Dr. Rafael Rocha</p>
         </div>
       </div>
     </section>
@@ -314,7 +389,7 @@ function Sobre() {
               lesões e doenças osteoarticulares.
             </p>
             <p className="text-gray-400 leading-relaxed mb-6">
-              Atende na {m.clinicName} em Brasília-DF, oferecendo consultas especializadas, diagnóstico preciso e
+              Atende em Brasília-DF, oferecendo consultas especializadas, diagnóstico preciso e
               tratamentos eficazes para cada caso.
             </p>
             <div className="space-y-3 mb-8">
@@ -452,7 +527,7 @@ function Depoimentos() {
         <div className="text-center mb-12">
           <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>Depoimentos</span>
           <h2 className="text-3xl lg:text-4xl font-bold text-white mt-2">O que Nossos Pacientes Dizem</h2>
-          <p className="text-gray-400 mt-3 text-sm">Avaliações verificadas no Doctoralia · {m.googleRating}⭐ ({m.googleReviews} avaliações)</p>
+          <p className="text-gray-400 mt-3 text-sm">Avaliações verificadas no Doctoralia · Nota {m.googleRating}</p>
         </div>
 
         {/* Cards depoimentos */}
@@ -476,7 +551,7 @@ function Depoimentos() {
 // ── Localização ───────────────────────────────────────────────────────────────
 function Localizacao() {
   return (
-    <section className="py-16 lg:py-24" style={{ backgroundColor: COLOR_SECTION }}>
+    <section id="localizacao" className="py-16 lg:py-24" style={{ backgroundColor: COLOR_SECTION }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div>
@@ -486,7 +561,6 @@ function Localizacao() {
               <div className="flex items-start gap-3 text-gray-400">
                 <MapPinIcon />
                 <div>
-                  <p className="font-semibold text-white">{m.clinicName}</p>
                   <p>{m.address}</p>
                 </div>
               </div>
@@ -494,12 +568,8 @@ function Localizacao() {
                 <ClockIcon />
                 <span>{m.hours}</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400">
-                <PhoneIcon />
-                <span>{m.phone}</span>
-              </div>
             </div>
-            <BtnWA size="lg">Fale pelo WhatsApp</BtnWA>
+            <BtnWA size="lg">Solicitar contato</BtnWA>
           </div>
           <div className="rounded-2xl overflow-hidden aspect-video border border-white/10">
             <iframe
@@ -522,11 +592,11 @@ function Localizacao() {
 const FAQS = [
   {
     q: 'Preciso de encaminhamento para agendar?',
-    a: 'Não é necessário encaminhamento. Você pode agendar diretamente sua avaliação pelo WhatsApp ou telefone. Se seu convênio exigir, verifique as regras do seu plano.',
+    a: 'Não é necessário encaminhamento. Você pode preencher o formulário da página para iniciar o atendimento pelo WhatsApp. Se seu convênio exigir, verifique as regras do seu plano.',
   },
   {
     q: 'O Dr. Rafael atende por convênio?',
-    a: 'Sim! Atendemos diversos convênios e planos de saúde. Entre em contato pelo WhatsApp para verificar se o seu plano é atendido e quais procedimentos estão cobertos.',
+    a: 'Sim! Atendemos diversos convênios e planos de saúde. Preencha o formulário para verificar se o seu plano é atendido e quais procedimentos estão cobertos.',
   },
   {
     q: 'Por que procurar um ortopedista especializado?',
@@ -534,7 +604,7 @@ const FAQS = [
   },
   {
     q: 'Como faço para agendar minha consulta?',
-    a: 'É simples! Clique em qualquer botão "Agende sua Consulta" nesta página para ser direcionado ao nosso WhatsApp. Nossa equipe responderá rapidamente para encontrar o melhor horário para você.',
+    a: 'É simples! Preencha seu nome e telefone no formulário da página. Em seguida, você será direcionado para o WhatsApp com as informações preenchidas.',
   },
 ]
 
@@ -589,7 +659,7 @@ function CTAFinal() {
             <div className="text-5xl font-bold" style={{ color: COLOR_BLUE_DEEP }}>{m.googleRating}</div>
             <div>
               <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <StarIcon key={i} />)}</div>
-              <p className="text-sm font-medium mt-0.5">{m.googleReviews} avaliações · Doctoralia</p>
+              <p className="text-sm font-medium mt-0.5">Nota no Doctoralia</p>
             </div>
           </div>
           <div className="hidden sm:block w-px h-12 bg-gray-300" />
@@ -598,9 +668,7 @@ function CTAFinal() {
             <p className="text-sm text-gray-600">Atendimento rápido e humanizado</p>
           </div>
           <a
-            href={WA_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#agendamento"
             className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
           >
             <WhatsAppIcon />
@@ -625,21 +693,20 @@ function Footer() {
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">
               Ortopedista e Traumatologista em {m.city}-{m.state}.
-              Procedimentos minimamente invasivos guiados por ultrassom na {m.clinicName}.
+              Procedimentos minimamente invasivos guiados por ultrassom em Brasília-DF.
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4" style={{ color: COLOR_DARK }}>Contato</h4>
+            <h4 className="font-semibold mb-4" style={{ color: COLOR_DARK }}>Endereço</h4>
             <div className="space-y-2 text-gray-500 text-sm">
               <p>{m.address}</p>
-              <p>{m.phone}</p>
               <p>{m.hours}</p>
             </div>
           </div>
           <div>
             <h4 className="font-semibold mb-4" style={{ color: COLOR_DARK }}>Links</h4>
             <div className="space-y-2">
-              {['#sobre', '#especialidades', '#procedimentos', '#depoimentos', '#faq'].map(href => (
+              {['#especialidades', '#procedimentos', '#depoimentos', '#localizacao', '#faq'].map(href => (
                 <a key={href} href={href} className="block text-gray-500 hover:text-blue-600 text-sm transition-colors capitalize">
                   {href.replace('#', '')}
                 </a>
@@ -668,13 +735,12 @@ export default function App() {
       <main>
         <Hero />
         <Stats />
-        <Sobre />
         <Especialidades />
         <Procedimentos />
+        <DoctoraliaBand />
         <Depoimentos />
         <Localizacao />
         <FAQ />
-        <CTAFinal />
       </main>
       <Footer />
     </>
