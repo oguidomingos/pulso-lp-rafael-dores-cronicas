@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 function copyStaticAssets() {
   return {
@@ -26,7 +27,7 @@ function copyStaticAssets() {
 
 export default defineConfig({
   base: "./",
-  plugins: [copyStaticAssets()],
+  plugins: [react(), copyStaticAssets()],
   server: {
     host: "0.0.0.0",
     port: 5173
