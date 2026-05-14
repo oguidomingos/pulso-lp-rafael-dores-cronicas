@@ -2,8 +2,10 @@ import { useState } from 'react'
 import './App.css'
 
 const m = {
+  clinicName: 'Lanner Especialidades',
   doctorName: 'Dr. Rafael Rocha',
   crm: 'CRM/DF 31.365',
+  rqe: 'RQE 22.589',
   specialty: 'Ortopedista e Traumatologista em Brasília',
   whatsapp: '5561991900221',
   city: 'Brasília',
@@ -87,6 +89,66 @@ function CheckIcon() {
   )
 }
 
+function ShieldIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M3 7.5l9-4.5 9 4.5v6c0 5.25-3.75 8.25-9 10.5-5.25-2.25-9-5.25-9-10.5v-6Z" />
+    </svg>
+  )
+}
+
+function UserIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.118a7.5 7.5 0 0 1 15 0A17.933 17.933 0 0 1 12 21.75a17.933 17.933 0 0 1-7.5-1.632Z" />
+    </svg>
+  )
+}
+
+function PainReliefIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21c4.97-4.243 8-7.846 8-11.25A4.75 4.75 0 0 0 15.25 5C13.91 5 12.77 5.62 12 6.6 11.23 5.62 10.09 5 8.75 5A4.75 4.75 0 0 0 4 9.75C4 13.154 7.03 16.757 12 21Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 11.25h6M12 8.25v6" />
+    </svg>
+  )
+}
+
+function ScalpelIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 5.25 18.75 9.75M5.25 18.75l5.364-5.364m0 0 5.657-5.657a2.121 2.121 0 1 1 3 3l-5.657 5.657m-2.999-2.999-1.5-1.5m4.499 4.499-1.5-1.5M4.5 19.5l2.379-.34a3 3 0 0 0 1.697-.84l1.538-1.538" />
+    </svg>
+  )
+}
+
+function BoneIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5a2.25 2.25 0 1 1-3.182-3.182A2.25 2.25 0 0 1 7.5 7.5l9 9a2.25 2.25 0 1 1 3.182 3.182A2.25 2.25 0 0 1 16.5 16.5l-9-9Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 16.5a2.25 2.25 0 1 1-3.182 3.182A2.25 2.25 0 0 1 7.5 16.5l9-9a2.25 2.25 0 1 1 3.182-3.182A2.25 2.25 0 0 1 16.5 7.5l-9 9Z" />
+    </svg>
+  )
+}
+
+function SpineIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 5.25h4.5M9 8.25h6M9.75 11.25h4.5M9 14.25h6M9.75 17.25h4.5" />
+    </svg>
+  )
+}
+
+function BandageIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="m10.5 13.5 3-3m-7.5.75 6.75 6.75a3 3 0 0 0 4.243 0l1.5-1.5a3 3 0 0 0 0-4.243L11.75 5.507a3 3 0 0 0-4.243 0l-1.5 1.5a3 3 0 0 0 0 4.243Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 8.25h.008v.008H8.25V8.25Zm2.25 2.25h.008v.008H10.5V10.5Zm2.25 2.25h.008v.008H12.75V12.75Zm2.25 2.25h.008v.008H15V15Z" />
+    </svg>
+  )
+}
+
 // ── Botão WhatsApp ───────────────────────────────────────────────────────────
 function BtnWA({ children, className = '', size = 'md' }) {
   const pad = size === 'lg' ? 'px-8 py-4 text-base' : 'px-5 py-2.5 text-sm'
@@ -116,7 +178,8 @@ function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <a href="#" className="flex items-center gap-3">
-            <img src={m.logoHorizontal} alt={m.doctorName} className="h-10 object-contain" />
+            <img src={m.symbol} alt="" className="h-8 w-8 object-contain rounded" />
+            <span className="font-bold text-lg leading-none text-gray-900">{m.doctorName}</span>
           </a>
           <nav className="hidden lg:flex items-center gap-8">
             {links.map(l => (
@@ -157,6 +220,13 @@ function Header() {
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 function Hero() {
+  const heroHighlights = [
+    { text: 'Aceitamos convênios', icon: ShieldIcon },
+    { text: 'Consulta personalizada', icon: UserIcon },
+    { text: 'Procedimentos para dor', icon: PainReliefIcon },
+    { text: 'Cirurgias minimamente invasivas', icon: ScalpelIcon },
+  ]
+
   return (
     <section
       className="relative min-h-screen flex items-end overflow-hidden"
@@ -202,18 +272,27 @@ function Hero() {
               Tratamento ortopédico especializado
             </span>
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-6">
-              Ortopedista e<br />
-              <span style={{ color: COLOR_BLUE_LIGHT }}>Traumatologista</span><br />
-              em Brasília
+              <span className="text-white">Ortopedista</span>{' '}
+              <span style={{ color: COLOR_BLUE_LIGHT }}>e</span><br />
+              <span className="text-white">Traumatologista</span><br />
+              <span style={{ color: COLOR_BLUE_LIGHT }}>em Brasília</span>
             </h1>
             <p className="text-lg text-gray-300 mb-4 leading-relaxed max-w-lg">
               Avaliação médica especializada para dores, lesões, fraturas e problemas articulares, com atendimento em Brasília.
             </p>
             <div className="flex flex-wrap gap-3 mb-8">
-              {['Aceitamos convênios', 'Consulta personalizada', 'Procedimentos para dor', 'Cirurgias minimamente invasivas'].map(t => (
-                <span key={t} className="flex items-center gap-2 text-sm bg-white/10 text-gray-200 px-3 py-1.5 rounded-full">
-                  <CheckIcon />
-                  {t}
+              {heroHighlights.map(({ text, icon: Icon }) => (
+                <span
+                  key={text}
+                  className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full border"
+                  style={{
+                    color: COLOR_BLUE_LIGHT,
+                    backgroundColor: 'rgba(91,180,208,0.12)',
+                    borderColor: 'rgba(91,180,208,0.24)',
+                  }}
+                >
+                  <Icon />
+                  {text}
                 </span>
               ))}
             </div>
@@ -230,7 +309,7 @@ function Hero() {
           </div>
 
           {/* Foto */}
-          <div className="order-2 lg:order-2 flex justify-center lg:justify-end self-end">
+          <div className="order-2 lg:order-2 flex justify-center lg:justify-end self-end lg:self-start">
             <div className="relative">
               <div
                 className="absolute inset-0 rounded-3xl opacity-30"
@@ -239,11 +318,11 @@ function Hero() {
               <img
                 src={m.doctorPhoto}
                 alt={m.doctorName}
-                className="relative z-10 translate-y-10 lg:translate-y-16 max-h-[620px] lg:max-h-[680px] xl:max-h-[760px] w-auto object-contain"
+                className="relative z-10 translate-y-4 lg:translate-y-0 max-h-[620px] lg:max-h-[680px] xl:max-h-[760px] w-auto object-contain"
               />
               {/* Badge CRM */}
               <div
-                className="absolute bottom-8 left-10 lg:left-24 z-10 px-5 py-3 rounded-xl border"
+                className="absolute bottom-20 left-10 lg:bottom-24 lg:left-24 z-10 px-5 py-3 rounded-xl border"
                 style={{
                   backgroundColor: '#c9eef5',
                   color: COLOR_DARKER,
@@ -377,38 +456,60 @@ function Sobre() {
     <section id="sobre" className="py-16 lg:py-24" style={{ backgroundColor: COLOR_DARKER }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <img src="./img/foto-mesa.jpg" alt="Dr. Rafael Rocha" className="rounded-2xl w-full object-cover max-h-[500px]" />
-          </div>
           <div>
-            <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>Sobre o Médico</span>
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mt-2 mb-6">{m.doctorName}</h2>
-            <p className="text-gray-400 leading-relaxed mb-4">
-              Ortopedista e Traumatologista com formação sólida e comprometimento com o bem-estar dos pacientes.
-              Atua com foco em procedimentos minimamente invasivos guiados por ultrassom para tratamento de dores,
-              lesões e doenças osteoarticulares.
-            </p>
-            <p className="text-gray-400 leading-relaxed mb-6">
-              Atende em Brasília-DF, oferecendo consultas especializadas, diagnóstico preciso e
-              tratamentos eficazes para cada caso.
-            </p>
-            <div className="space-y-3 mb-8">
-              {[
-                `${m.crm} — Ortopedista e Traumatologista`,
-                'Procedimentos guiados por ultrassom',
-                `Atende em ${m.city}-${m.state}`,
-                'Convênios aceitos',
-              ].map(item => (
-                <div key={item} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: COLOR_GREEN }}>
-                    <CheckIcon />
-                  </div>
-                  <span className="text-gray-300">{item}</span>
-                </div>
-              ))}
+            <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>Sobre</span>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mt-2 mb-6">Ortopedia, Traumatologia e Medicina da Dor</h2>
+            <div className="space-y-4 text-gray-400 leading-relaxed">
+              <p>
+                O {m.doctorName} é médico formado pela Universidade Federal de Goiás (UFG), com Residência em Ortopedia e Traumatologia pelo Hospital das Clínicas da UFG e Fellowship em Medicina da Dor pela UFG (2023-2025).
+              </p>
+              <p>
+                Membro fundador da Associação Goiana dos Médicos de Dor (SOBRAMID Goiás), atua na {m.clinicName}, em Águas Claras, liderando a frente de Ortopedia, Traumatologia e Medicina da Dor com procedimentos minimamente invasivos guiados por ultrassom.
+              </p>
+              <p>
+                Cada paciente recebe um plano de tratamento individualizado, integrando diagnóstico ortopédico e traumatológico com as mais modernas técnicas de controle da dor, muitas vezes evitando cirurgias.
+              </p>
+              <p>
+                Com mais de 5.000 procedimentos realizados e 3.000 pacientes atendidos, a missão é devolver qualidade de vida e movimento, utilizando sempre as melhores evidências científicas disponíveis.
+              </p>
             </div>
-            <BtnWA size="lg">Agendar Consulta</BtnWA>
           </div>
+          <div className="rounded-2xl p-8 border border-white/10" style={{ backgroundColor: COLOR_CARD }}>
+            <div className="rounded-xl aspect-[4/3] overflow-hidden mb-6">
+              <img src="./img/foto-mesa.jpg" alt={m.doctorName} className="w-full h-full object-cover" />
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white">{m.doctorName}</h3>
+              <p className="font-medium" style={{ color: COLOR_BLUE_LIGHT }}>{m.specialty}</p>
+              <p className="text-gray-500 text-sm mt-1">{m.crm} | {m.rqe}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function GaleriaClinica() {
+  const photos = [
+    { src: './img/foto-exame1.jpeg', alt: 'Exame guiado por ultrassom' },
+    { src: './img/foto-exame2.jpg', alt: 'Procedimento minimamente invasivo' },
+    { src: './img/foto-atendimento.jpeg', alt: 'Atendimento ao paciente' },
+  ]
+
+  return (
+    <section className="py-12 lg:py-16" style={{ backgroundColor: COLOR_CARD }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-6 md:grid-cols-3">
+          {photos.map(photo => (
+            <div key={photo.alt} className="rounded-2xl overflow-hidden border border-white/10">
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                className="w-full aspect-[4/3] object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -420,18 +521,22 @@ function Especialidades() {
   const areas = [
     {
       title: 'Ortopedia',
+      icon: BoneIcon,
       items: ['Artrose de Joelho', 'Artrose de Quadril', 'Artrose de Ombro', 'Artrite Reumatoide', 'Bursite'],
     },
     {
       title: 'Musculoesqueléticas',
+      icon: SpineIcon,
       items: ['Lombalgia Crônica', 'Cervicalgia', 'Hérnia de Disco', 'Fibromialgia', 'Síndrome Miofascial'],
     },
     {
       title: 'Traumatologia',
+      icon: BandageIcon,
       items: ['Fraturas', 'Lesões Ligamentares', 'Síndrome do Túnel do Carpo', 'Ciatalgia', 'Lesões Esportivas'],
     },
     {
       title: 'Procedimentos',
+      icon: ScalpelIcon,
       items: ['Infiltrações guiadas por US', 'Proloterapia', 'PRP', 'Bloqueios nervosos', 'Viscossuplementação'],
     },
   ]
@@ -446,11 +551,14 @@ function Especialidades() {
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {areas.map(a => (
-            <div key={a.title} className="rounded-2xl p-6 border border-white/10 hover:border-white/30 transition-colors" style={{ backgroundColor: COLOR_CARD }}>
-              <h3 className="text-lg font-bold text-white mb-3">{a.title}</h3>
+          {areas.map(({ title, items, icon: Icon }) => (
+            <div key={title} className="rounded-2xl p-6 border border-white/10 hover:border-white/30 transition-colors" style={{ backgroundColor: COLOR_CARD }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 border" style={{ backgroundColor: 'rgba(91,180,208,0.12)', borderColor: 'rgba(91,180,208,0.18)', color: COLOR_BLUE_LIGHT }}>
+                <Icon />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-3">{title}</h3>
               <ul className="space-y-2">
-                {a.items.map(item => (
+                {items.map(item => (
                   <li key={item} className="flex items-start gap-2 text-gray-400 text-sm">
                     <span style={{ color: COLOR_BLUE_LIGHT }} className="mt-0.5">•</span>
                     {item}
@@ -471,12 +579,12 @@ function Especialidades() {
 // ── Procedimentos ─────────────────────────────────────────────────────────────
 function Procedimentos() {
   const procs = [
-    { title: 'Infiltração com Corticosteroide', desc: 'Redução rápida de inflamação em articulações e tendões com precisão guiada por ultrassom.' },
-    { title: 'Viscossuplementação', desc: 'Reposição do líquido sinovial para lubrificação e proteção das articulações, especialmente joelhos.' },
-    { title: 'PRP (Plasma Rico em Plaquetas)', desc: 'Aproveitamento dos fatores de crescimento do próprio sangue para regeneração tecidual.' },
-    { title: 'Proloterapia', desc: 'Estímulo natural à regeneração de ligamentos e tendões com soluções injetáveis.' },
-    { title: 'Bloqueio Nervoso', desc: 'Interrupção temporária de sinais de dor para alívio imediato e duradouro.' },
-    { title: 'Aspiração de Cistos e Calcificações', desc: 'Remoção de depósitos e cistos que causam dor e limitação de movimento.' },
+    { title: 'Infiltração com Corticosteroide', desc: 'Redução rápida de inflamação em articulações e tendões com precisão guiada por ultrassom.', icon: PainReliefIcon },
+    { title: 'Viscossuplementação', desc: 'Reposição do líquido sinovial para lubrificação e proteção das articulações, especialmente joelhos.', icon: BoneIcon },
+    { title: 'PRP (Plasma Rico em Plaquetas)', desc: 'Aproveitamento dos fatores de crescimento do próprio sangue para regeneração tecidual.', icon: ShieldIcon },
+    { title: 'Proloterapia', desc: 'Estímulo natural à regeneração de ligamentos e tendões com soluções injetáveis.', icon: SpineIcon },
+    { title: 'Bloqueio Nervoso', desc: 'Interrupção temporária de sinais de dor para alívio imediato e duradouro.', icon: BandageIcon },
+    { title: 'Aspiração de Cistos e Calcificações', desc: 'Remoção de depósitos e cistos que causam dor e limitação de movimento.', icon: ScalpelIcon },
   ]
   return (
     <section id="procedimentos" className="py-16 lg:py-24" style={{ backgroundColor: COLOR_CARD }}>
@@ -489,15 +597,13 @@ function Procedimentos() {
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {procs.map(p => (
-            <div key={p.title} className="rounded-2xl p-6 border border-white/10" style={{ backgroundColor: COLOR_SECTION }}>
-              <div className="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style={{ backgroundColor: `${COLOR_BLUE_LIGHT}22` }}>
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke={COLOR_BLUE_LIGHT} strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+          {procs.map(({ title, desc, icon: Icon }) => (
+            <div key={title} className="rounded-2xl p-6 border border-white/10" style={{ backgroundColor: COLOR_SECTION }}>
+              <div className="w-10 h-10 rounded-xl mb-4 flex items-center justify-center border" style={{ backgroundColor: `${COLOR_BLUE_LIGHT}22`, borderColor: 'rgba(91,180,208,0.18)', color: COLOR_BLUE_LIGHT }}>
+                <Icon />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">{p.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{p.desc}</p>
+              <h3 className="text-lg font-bold text-white mb-2">{title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
@@ -738,6 +844,8 @@ export default function App() {
         <Especialidades />
         <Procedimentos />
         <DoctoraliaBand />
+        <Sobre />
+        <GaleriaClinica />
         <Depoimentos />
         <Localizacao />
         <FAQ />
