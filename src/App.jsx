@@ -149,6 +149,55 @@ function BandageIcon() {
   )
 }
 
+function HospitalIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M6 21V6.75A.75.75 0 0 1 6.75 6h10.5a.75.75 0 0 1 .75.75V21M9 10.5h6M12 7.5v6M9 21v-4.5h6V21" />
+    </svg>
+  )
+}
+
+function SyringeIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="m15 3 6 6M8.25 9.75l6 6M6 21l4.5-4.5M12 6l6 6M4.5 13.5l6-6" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 7.5 16.5 13.5" />
+    </svg>
+  )
+}
+
+function DropletIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c2.25 3.18 5.25 6.663 5.25 10.125A5.25 5.25 0 1 1 6.75 13.125C6.75 9.663 9.75 6.18 12 3Z" />
+    </svg>
+  )
+}
+
+function PulseIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h4.5l2.25-4.5L14.25 18 16.5 12H21" />
+    </svg>
+  )
+}
+
+function LightningIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 2.25 5.25 13.5h5.25l-1.5 8.25 8.25-11.25h-5.25l1.5-8.25Z" />
+    </svg>
+  )
+}
+
+function ScanIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5M20.25 16.5V18A2.25 2.25 0 0 1 18 20.25h-1.5M7.5 20.25H6A2.25 2.25 0 0 1 3.75 18v-1.5M7.5 12h9" />
+    </svg>
+  )
+}
+
 // ── Botão WhatsApp ───────────────────────────────────────────────────────────
 function BtnWA({ children, className = '', size = 'md' }) {
   const pad = size === 'lg' ? 'px-8 py-4 text-base' : 'px-5 py-2.5 text-sm'
@@ -535,7 +584,7 @@ function Especialidades() {
     },
     {
       title: 'Procedimentos',
-      icon: ScalpelIcon,
+      icon: HospitalIcon,
       items: ['Infiltrações guiadas por US', 'Proloterapia', 'PRP', 'Bloqueios nervosos', 'Viscossuplementação'],
     },
   ]
@@ -578,12 +627,12 @@ function Especialidades() {
 // ── Procedimentos ─────────────────────────────────────────────────────────────
 function Procedimentos() {
   const procs = [
-    { title: 'Infiltração com Corticosteroide', desc: 'Redução rápida de inflamação em articulações e tendões com precisão guiada por ultrassom.', icon: PainReliefIcon },
-    { title: 'Viscossuplementação', desc: 'Reposição do líquido sinovial para lubrificação e proteção das articulações, especialmente joelhos.', icon: BoneIcon },
-    { title: 'PRP (Plasma Rico em Plaquetas)', desc: 'Aproveitamento dos fatores de crescimento do próprio sangue para regeneração tecidual.', icon: ShieldIcon },
-    { title: 'Proloterapia', desc: 'Estímulo natural à regeneração de ligamentos e tendões com soluções injetáveis.', icon: SpineIcon },
-    { title: 'Bloqueio Nervoso', desc: 'Interrupção temporária de sinais de dor para alívio imediato e duradouro.', icon: BandageIcon },
-    { title: 'Aspiração de Cistos e Calcificações', desc: 'Remoção de depósitos e cistos que causam dor e limitação de movimento.', icon: ScalpelIcon },
+    { title: 'Infiltração com Corticosteroide', desc: 'Redução rápida de inflamação em articulações e tendões com precisão guiada por ultrassom.', icon: SyringeIcon },
+    { title: 'Viscossuplementação', desc: 'Reposição do líquido sinovial para lubrificação e proteção das articulações, especialmente joelhos.', icon: DropletIcon },
+    { title: 'PRP (Plasma Rico em Plaquetas)', desc: 'Aproveitamento dos fatores de crescimento do próprio sangue para regeneração tecidual.', icon: PulseIcon },
+    { title: 'Proloterapia', desc: 'Estímulo natural à regeneração de ligamentos e tendões com soluções injetáveis.', icon: ShieldIcon },
+    { title: 'Bloqueio Nervoso', desc: 'Interrupção temporária de sinais de dor para alívio imediato e duradouro.', icon: LightningIcon },
+    { title: 'Aspiração de Cistos e Calcificações', desc: 'Remoção de depósitos e cistos que causam dor e limitação de movimento.', icon: ScanIcon },
   ]
   return (
     <section id="procedimentos" className="py-16 lg:py-24" style={{ backgroundColor: COLOR_CARD }}>
