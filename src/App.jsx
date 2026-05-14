@@ -435,14 +435,14 @@ function Procedimentos() {
 }
 
 // ── Depoimentos ───────────────────────────────────────────────────────────────
-// Depoimentos reais verificados via Doctoralia (mai/2026)
+// Depoimentos reais verificados via Doctoralia (mai/2026) — 11 avaliações, todos 5 estrelas
 const TESTIMONIALS = [
-  { name: 'Maria Cristina', text: 'Foi o primeiro médico que me sugeriu um tratamento eficaz para as dores que estava sentindo nos joelhos.', rating: 5 },
   { name: 'Inerilda', text: 'Cheguei no consultório com dor e ao término da consulta e procedimentos, estava bem melhor. Hoje fiz outro procedimento e sei que será um ótimo resultado. Gratidão Dr. Rafael Rocha!!', rating: 5 },
-  { name: 'Lucia Helena Feitosa Kopp', text: 'Profissional competente, atencioso, passa muita tranquilidade ao paciente.', rating: 5 },
-  { name: 'Maria das Graças de Souza', text: 'Ótimo atendimento, médico excelente, consultório muito bom.', rating: 5 },
+  { name: 'Maria Cristina', text: 'Foi o primeiro médico que me sugeriu um tratamento eficaz para as dores que estava sentindo nos joelhos.', rating: 5 },
+  { name: 'Amanda Ferreira', text: 'Profissional muito atencioso e empático. Me senti acolhida e bem cuidada.', rating: 5 },
   { name: 'Paulo', text: 'Já sai de lá descendo 11 andares de escada! Top demais.', rating: 5 },
-  { name: 'Ana Cristina Gomes B. de Menezes', text: 'Ótimo atendimento, gentileza no trato com o paciente, tratamento muito satisfatório.', rating: 5 },
+  { name: 'Darlene Aquino', text: 'Ótimo tratamento, passa confiança pro paciente. Gostei muito, super recomendo.', rating: 5 },
+  { name: 'Ana Cristina G. B. de Menezes', text: 'Ótimo atendimento, gentileza no trato com o paciente, tratamento muito satisfatório.', rating: 5 },
 ]
 
 function Depoimentos() {
