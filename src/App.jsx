@@ -170,7 +170,7 @@ function Hero() {
       <div
         className="absolute inset-0 opacity-[0.18]"
         style={{
-          backgroundImage: `url(./img/textura-LP.jpg)`,
+          backgroundImage: `url(./img/hero-medical-texture.jpg)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
