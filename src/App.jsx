@@ -18,8 +18,6 @@ const m = {
   doctorPhoto: './img/foto-sem-fundo.png',
   symbol: './img/simbolo.jpg',
   logoHorizontal: './img/logo-horizontal.jpg',
-  // URL do vídeo de apresentação — aguardando confirmação do board
-  videoApresentacao: 'https://www.youtube.com/embed/AGUARDANDO_URL',
 }
 
 const WA_URL = `https://wa.me/${m.whatsapp}?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20o%20${encodeURIComponent(m.doctorName)}.`
@@ -170,7 +168,7 @@ function Hero() {
     >
       {/* Background textura */}
       <div
-        className="absolute inset-0 opacity-[0.12]"
+        className="absolute inset-0 opacity-[0.18]"
         style={{
           backgroundImage: `url(./img/textura-LP.jpg)`,
           backgroundSize: 'cover',
@@ -182,7 +180,7 @@ function Hero() {
       <div
         className="absolute inset-0 hidden lg:block"
         style={{
-          background: `linear-gradient(to right, ${COLOR_DARKER} 35%, rgba(27,74,107,0.55) 65%, rgba(91,180,208,0.25) 100%)`,
+          background: `linear-gradient(to right, ${COLOR_DARKER} 30%, rgba(27,74,107,0.5) 55%, rgba(91,180,208,0.18) 80%, rgba(140,210,235,0.12) 100%)`,
         }}
       />
       {/* Gradiente mobile: overlay suave */}
@@ -439,12 +437,12 @@ function Procedimentos() {
 // ── Depoimentos ───────────────────────────────────────────────────────────────
 // Depoimentos reais verificados via Doctoralia (mai/2026)
 const TESTIMONIALS = [
+  { name: 'Maria Cristina', text: 'Foi o primeiro médico que me sugeriu um tratamento eficaz para as dores que estava sentindo nos joelhos.', rating: 5 },
   { name: 'Inerilda', text: 'Cheguei no consultório com dor e ao término da consulta e procedimentos, estava bem melhor. Hoje fiz outro procedimento e sei que será um ótimo resultado. Gratidão Dr. Rafael Rocha!!', rating: 5 },
-  { name: 'Amanda Ferreira', text: 'Profissional muito atencioso e empático. Me senti acolhida e bem cuidada.', rating: 5 },
   { name: 'Lucia Helena Feitosa Kopp', text: 'Profissional competente, atencioso, passa muita tranquilidade ao paciente.', rating: 5 },
-  { name: 'Ana Cristina Gomes Bezerra de Menezes', text: 'Ótimo atendimento, gentileza no trato com o paciente, tratamento mto satisfatório.', rating: 5 },
   { name: 'Maria das Graças de Souza', text: 'Ótimo atendimento, médico excelente, consultório muito bom.', rating: 5 },
-  { name: 'Paulo', text: 'Já sai de lá descendo 11 andares de escada! Top demais', rating: 5 },
+  { name: 'Paulo', text: 'Já sai de lá descendo 11 andares de escada! Top demais.', rating: 5 },
+  { name: 'Ana Cristina Gomes B. de Menezes', text: 'Ótimo atendimento, gentileza no trato com o paciente, tratamento muito satisfatório.', rating: 5 },
 ]
 
 function Depoimentos() {
@@ -455,19 +453,6 @@ function Depoimentos() {
           <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>Depoimentos</span>
           <h2 className="text-3xl lg:text-4xl font-bold text-white mt-2">O que Nossos Pacientes Dizem</h2>
           <p className="text-gray-400 mt-3 text-sm">Avaliações verificadas no Doctoralia · {m.googleRating}⭐ ({m.googleReviews} avaliações)</p>
-        </div>
-
-        {/* Vídeo de Apresentação */}
-        <div className="max-w-3xl mx-auto mb-12">
-          <div className="rounded-2xl overflow-hidden aspect-video shadow-2xl border border-white/10">
-            <iframe
-              src={m.videoApresentacao}
-              title={`Vídeo de Apresentação — ${m.doctorName}`}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
         </div>
 
         {/* Cards depoimentos */}
