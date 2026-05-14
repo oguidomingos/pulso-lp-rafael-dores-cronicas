@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 function copyStaticAssets() {
   return {
@@ -27,7 +28,7 @@ function copyStaticAssets() {
 
 export default defineConfig({
   base: "./",
-  plugins: [react(), copyStaticAssets()],
+  plugins: [react(), tailwindcss(), copyStaticAssets()],
   server: {
     host: "0.0.0.0",
     port: 5173
