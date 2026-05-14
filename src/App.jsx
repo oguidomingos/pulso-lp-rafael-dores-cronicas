@@ -666,6 +666,7 @@ function Localizacao() {
               <div className="flex items-start gap-3 text-gray-400">
                 <MapPinIcon />
                 <div>
+                  <p className="font-semibold text-white">Albany Medical Center</p>
                   <p>{m.address}</p>
                 </div>
               </div>
