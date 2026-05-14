@@ -177,9 +177,8 @@ function Header() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <a href="#" className="flex items-center gap-3">
-            <img src={m.symbol} alt="" className="h-8 w-8 object-contain rounded" />
-            <span className="font-bold text-lg leading-none text-gray-900">{m.doctorName}</span>
+          <a href="#" className="flex items-center">
+            <img src="./img/navbar-logo.png" alt={m.doctorName} className="h-20 w-auto object-contain lg:h-32" />
           </a>
           <nav className="hidden lg:flex items-center gap-8">
             {links.map(l => (
