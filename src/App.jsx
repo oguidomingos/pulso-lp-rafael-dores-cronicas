@@ -19,9 +19,6 @@ const m = {
   logoHorizontal: './img/logo-horizontal.jpg',
 }
 
-const leadMessage = ({ name, phone }) =>
-  `Olá! Gostaria de agendar uma consulta com o ${m.doctorName}.\n\nNome: ${name}\nTelefone: ${phone}`
-
 // Cores
 const COLOR_DARK = '#1a2a35'
 const COLOR_DARKER = '#0f1e28'
