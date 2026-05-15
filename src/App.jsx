@@ -430,10 +430,31 @@ function LeadForm({ className = '' }) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
 
+  function handlePhoneChange(event) {
+    const normalizedPhone = event.target.value.replace(/\D/g, '').slice(0, 11)
+    setPhone(normalizedPhone)
+  }
+
   function handleSubmit(event) {
     event.preventDefault()
-    const url = `https://wa.me/${m.whatsapp}?text=${encodeURIComponent(leadMessage({ name, phone }))}`
-    window.open(url, '_blank', 'noopener,noreferrer')
+    window.dataLayer = window.dataLayer || []
+    const currentUrl = new URL(window.location.href)
+    window.dataLayer.push({
+      event: 'lead_submit',
+      lead_name: name,
+      lead_phone: phone,
+      lead_source: 'hero_form',
+      page_location: currentUrl.toString(),
+    })
+    const thankYouUrl = new URL('/obg-wpp/index.html', window.location.origin)
+    thankYouUrl.searchParams.set('name', name)
+    thankYouUrl.searchParams.set('phone', phone)
+    thankYouUrl.searchParams.set('source', 'hero_form')
+    thankYouUrl.searchParams.set('page_url', currentUrl.toString())
+    thankYouUrl.searchParams.set('utm_source', currentUrl.searchParams.get('utm_source') || '')
+    thankYouUrl.searchParams.set('utm_medium', currentUrl.searchParams.get('utm_medium') || '')
+    thankYouUrl.searchParams.set('utm_campaign', currentUrl.searchParams.get('utm_campaign') || '')
+    window.location.href = thankYouUrl.toString()
   }
 
   return (
@@ -458,9 +479,10 @@ function LeadForm({ className = '' }) {
           id="lead-phone"
           required
           value={phone}
-          onChange={(event) => setPhone(event.target.value)}
+          onChange={handlePhoneChange}
           placeholder="Seu telefone"
           inputMode="tel"
+          maxLength={11}
           className="min-h-12 rounded-lg border border-white/20 bg-white px-4 text-gray-900 outline-none focus:ring-2 focus:ring-green-500"
         />
       </div>
