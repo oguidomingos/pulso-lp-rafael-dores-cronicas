@@ -7,7 +7,7 @@ const m = {
   crm: 'CRM/DF 31.365',
   rqe: 'RQE 22.589',
   specialty: 'Ortopedista e Traumatologista em Brasília',
-  whatsapp: '5561991900221',
+  whatsapp: '5561999190221',
   city: 'Brasília',
   state: 'DF',
   address: 'Rua 5 Norte, Lote 3 - Águas Claras, Brasília - DF, CEP: 71907-720, Sala 411',
