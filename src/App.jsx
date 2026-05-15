@@ -203,7 +203,7 @@ function BtnWA({ children, className = '', size = 'md' }) {
   const pad = size === 'lg' ? 'px-8 py-4 text-base' : 'px-5 py-2.5 text-sm'
   return (
     <a
-      href="#agendamento"
+      href="#hero"
       className={`inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl ${pad} ${className}`}
     >
       <WhatsAppIcon />
@@ -277,6 +277,7 @@ function Hero() {
 
   return (
     <section
+      id="hero"
       className="relative min-h-screen flex items-end overflow-hidden"
       style={{ backgroundColor: COLOR_DARKER }}
     >
@@ -389,7 +390,7 @@ function Hero() {
 
       {/* WhatsApp fixo mobile */}
       <a
-        href="#agendamento"
+        href="#hero"
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-center gap-2 bg-green-600 text-white font-semibold py-4 text-base shadow-xl"
       >
         <WhatsAppIcon className="w-6 h-6" />
@@ -607,7 +608,7 @@ function Especialidades() {
     {
       title: 'Procedimentos',
       icon: HospitalIcon,
-      items: ['Infiltrações guiadas por US', 'Proloterapia', 'PRP', 'Bloqueios nervosos', 'Viscossuplementação'],
+      items: ['Infiltrações guiadas por US', 'Terapias regenerativas', 'Procedimentos guiados', 'Bloqueios terapêuticos', 'Cuidados articulares'],
     },
   ]
   return (
@@ -649,11 +650,11 @@ function Especialidades() {
 // ── Procedimentos ─────────────────────────────────────────────────────────────
 function Procedimentos() {
   const procs = [
-    { title: 'Infiltração com Corticosteroide', desc: 'Redução rápida de inflamação em articulações e tendões com precisão guiada por ultrassom.', icon: SyringeIcon },
-    { title: 'Viscossuplementação', desc: 'Reposição do líquido sinovial para lubrificação e proteção das articulações, especialmente joelhos.', icon: DropletIcon },
-    { title: 'PRP (Plasma Rico em Plaquetas)', desc: 'Aproveitamento dos fatores de crescimento do próprio sangue para regeneração tecidual.', icon: PulseIcon },
-    { title: 'Proloterapia', desc: 'Estímulo natural à regeneração de ligamentos e tendões com soluções injetáveis.', icon: ShieldIcon },
-    { title: 'Bloqueio Nervoso', desc: 'Interrupção temporária de sinais de dor para alívio imediato e duradouro.', icon: LightningIcon },
+    { title: 'Infiltração', desc: 'Procedimento guiado para aliviar dor e inflamação em articulações e tendões com alta precisão.', icon: SyringeIcon },
+    { title: 'Cuidado Articular', desc: 'Abordagem voltada à proteção, mobilidade e conforto das articulações, especialmente nos joelhos.', icon: DropletIcon },
+    { title: 'Terapia Regenerativa', desc: 'Técnica voltada ao estímulo da recuperação tecidual e melhora funcional.', icon: PulseIcon },
+    { title: 'Estímulo Regenerativo', desc: 'Abordagem minimamente invasiva para favorecer a recuperação de ligamentos e tendões.', icon: ShieldIcon },
+    { title: 'Bloqueio Terapêutico', desc: 'Procedimento para controle da dor com alívio imediato e duradouro.', icon: LightningIcon },
     { title: 'Aspiração de Cistos e Calcificações', desc: 'Remoção de depósitos e cistos que causam dor e limitação de movimento.', icon: ScanIcon },
   ]
   return (
@@ -845,7 +846,7 @@ function CTAFinal() {
             <p className="text-sm text-gray-600">Atendimento rápido e humanizado</p>
           </div>
           <a
-            href="#agendamento"
+            href="#hero"
             className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
           >
             <WhatsAppIcon />
