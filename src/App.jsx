@@ -13,7 +13,7 @@ const m = {
   address: 'Rua 5 Norte, Lote 3 - Águas Claras, Brasília - DF, CEP: 71907-720, Sala 411',
   hours: 'Seg–Sex: 08h–18h',
   googleRating: '5.0',
-  stats: { procedures: '5.000', surgeries: '500', patients: '3.000', specialties: '14' },
+  stats: { procedures: '3.000', surgeries: '500', patients: '5.000', specialties: '14' },
   doctorPhoto: './img/foto-sem-fundo.png',
   symbol: './img/simbolo.jpg',
   logoHorizontal: './img/logo-horizontal.jpg',
@@ -538,7 +538,7 @@ function Sobre() {
                 Cada paciente recebe um plano de tratamento individualizado, integrando diagnóstico ortopédico e traumatológico com as mais modernas técnicas de controle da dor, muitas vezes evitando cirurgias.
               </p>
               <p>
-                Com mais de 5.000 procedimentos realizados e 3.000 pacientes atendidos, a missão é devolver qualidade de vida e movimento, utilizando sempre as melhores evidências científicas disponíveis.
+                Com mais de 3.000 procedimentos realizados e 5.000 pacientes atendidos, a missão é devolver qualidade de vida e movimento, utilizando sempre as melhores evidências científicas disponíveis.
               </p>
             </div>
           </div>
@@ -562,7 +562,7 @@ function GaleriaClinica() {
   const photos = [
     { src: './img/foto-exame1.jpeg', alt: 'Exame guiado por ultrassom' },
     { src: './img/foto-exame2.jpg', alt: 'Procedimento minimamente invasivo' },
-    { src: './img/foto-atendimento.jpeg', alt: 'Atendimento ao paciente' },
+    { src: './img/IMG_1990.jpg', alt: 'Atendimento ao paciente' },
   ]
 
   return (
