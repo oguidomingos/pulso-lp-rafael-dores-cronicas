@@ -1,0 +1,16 @@
+/* App-specific overrides */
+.text-brand-navy {
+  color: #1f3540;
+}
+.text-brand-teal {
+  color: #2e5c6d;
+}
+.text-brand-mint {
+  color: #b8dde0;
+}
+.bg-brand-navy {
+  background-color: #1f3540;
+}
+.border-brand-soft {
+  border-color: #d8e3e7;
+}

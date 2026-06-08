@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <g opacity="0.95">
+    <!-- Pelve (vista frontal) -->
+    <!-- Ílio direito e esquerdo -->
+    <path d="M100 220 C 80 280 90 360 130 410 C 180 430 230 440 280 442" />
+    <path d="M500 220 C 520 280 510 360 470 410 C 420 430 370 440 320 442" />
+    <!-- Cristas ilíacas -->
+    <path d="M100 220 C 140 200 240 195 295 215" />
+    <path d="M500 220 C 460 200 360 195 305 215" />
+    <!-- Sínfise púbica -->
+    <path d="M260 470 C 280 475 320 475 340 470 L 340 510 C 320 515 280 515 260 510 Z" />
+    <!-- Acetábulo direito -->
+    <ellipse cx="225" cy="430" rx="42" ry="44" />
+    <path d="M195 430 C 215 445 240 446 255 432" opacity="0.55" />
+    <!-- Acetábulo esquerdo -->
+    <ellipse cx="375" cy="430" rx="42" ry="44" />
+    <path d="M345 430 C 365 445 390 446 405 432" opacity="0.55" />
+    <!-- Cabeças femorais -->
+    <circle cx="195" cy="438" r="38" />
+    <circle cx="405" cy="438" r="38" />
+    <!-- Colo do fêmur -->
+    <path d="M180 470 L 150 510 C 140 525 142 545 158 555" />
+    <path d="M420 470 L 450 510 C 460 525 458 545 442 555" />
+    <!-- Trocânter maior (lateral) -->
+    <path d="M115 520 C 95 540 95 570 115 580 L 145 570" />
+    <path d="M485 520 C 505 540 505 570 485 580 L 455 570" />
+    <!-- Diáfise femoral -->
+    <path d="M125 570 C 130 660 135 740 145 800" />
+    <path d="M165 570 C 165 660 170 740 175 800" opacity="0.85" />
+    <path d="M475 570 C 470 660 465 740 455 800" />
+    <path d="M435 570 C 435 660 430 740 425 800" opacity="0.85" />
+    <!-- Sacro -->
+    <path d="M285 340 C 300 320 310 320 320 340 L 320 410 C 305 420 295 420 280 410 Z" />
+    <path d="M285 360 L 320 360 M 285 380 L 320 380" opacity="0.45" />
+    <!-- Forame obturador -->
+    <ellipse cx="232" cy="500" rx="20" ry="28" opacity="0.45" />
+    <ellipse cx="368" cy="500" rx="20" ry="28" opacity="0.45" />
+    <!-- Marcações sutis -->
+    <path d="M150 295 C 240 305 360 305 450 295" opacity="0.25" stroke-dasharray="2 4" />
+  </g>
+</svg>
