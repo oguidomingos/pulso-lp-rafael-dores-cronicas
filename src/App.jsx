@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 
 const m = {
@@ -18,10 +18,6 @@ const m = {
   symbol: './img/simbolo.jpg',
   logoHorizontal: './img/logo-horizontal.jpg',
 }
-
-const LEAD_WEBHOOK_URL = 'https://api.icebergcompany.com.br/lead-webhook/neofisioterapia'
-const LEAD_SOURCE = 'dr-rafael-rocha-lp'
-const SUBMIT_LOCK_MS = 4000
 
 // Cores
 const COLOR_DARK = '#1a2a35'
@@ -431,16 +427,6 @@ function Stats() {
 function LeadForm({ className = '' }) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const submitUnlockTimeoutRef = useRef(null)
-
-  useEffect(() => {
-    return () => {
-      if (submitUnlockTimeoutRef.current) {
-        window.clearTimeout(submitUnlockTimeoutRef.current)
-      }
-    }
-  }, [])
 
   function handlePhoneChange(event) {
     const normalizedPhone = event.target.value.replace(/\D/g, '').slice(0, 11)
@@ -449,64 +435,30 @@ function LeadForm({ className = '' }) {
 
   function handleSubmit(event) {
     event.preventDefault()
-    const form = event.currentTarget
-
-    if (isSubmitting || !form.reportValidity()) {
-      return
-    }
-
-    const normalizedName = name.trim()
-    const normalizedPhone = phone.replace(/\D/g, '').slice(0, 11)
-
-    if (!normalizedName || !normalizedPhone) {
-      return
-    }
-
-    const whatsappMessage = encodeURIComponent(
-      `Olá, gostaria de agendar uma consulta com ${m.doctorName}.\n\nNome: ${normalizedName}\nTelefone: ${normalizedPhone}`,
-    )
-
-    setIsSubmitting(true)
     window.dataLayer = window.dataLayer || []
     const currentUrl = new URL(window.location.href)
     window.dataLayer.push({
-      event: 'lead_form_submit',
-      form_name: 'cta_agendamento',
-      lead_name: normalizedName,
-      lead_phone: normalizedPhone,
-      lead_source: LEAD_SOURCE,
+      event: 'lead_submit',
+      lead_name: name,
+      lead_phone: phone,
+      lead_source: 'hero_form',
       page_location: currentUrl.toString(),
     })
-
-    fetch(LEAD_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome: normalizedName,
-        whatsapp: normalizedPhone,
-        origem: LEAD_SOURCE,
-        unidade: m.clinicName,
-      }),
-    }).catch(() => {})
-
-    window.open(`https://wa.me/${m.whatsapp}?text=${whatsappMessage}`, '_blank', 'noopener')
-    setName('')
-    setPhone('')
-
-    if (submitUnlockTimeoutRef.current) {
-      window.clearTimeout(submitUnlockTimeoutRef.current)
-    }
-
-    submitUnlockTimeoutRef.current = window.setTimeout(() => {
-      setIsSubmitting(false)
-    }, SUBMIT_LOCK_MS)
+    const thankYouUrl = new URL('/obg-wpp/index.html', window.location.origin)
+    thankYouUrl.searchParams.set('name', name)
+    thankYouUrl.searchParams.set('phone', phone)
+    thankYouUrl.searchParams.set('source', 'hero_form')
+    thankYouUrl.searchParams.set('page_url', currentUrl.toString())
+    thankYouUrl.searchParams.set('utm_source', currentUrl.searchParams.get('utm_source') || '')
+    thankYouUrl.searchParams.set('utm_medium', currentUrl.searchParams.get('utm_medium') || '')
+    thankYouUrl.searchParams.set('utm_campaign', currentUrl.searchParams.get('utm_campaign') || '')
+    window.location.href = thankYouUrl.toString()
   }
 
   return (
     <form
       id="agendamento"
       onSubmit={handleSubmit}
-      aria-busy={isSubmitting}
       className={`rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm ${className}`}
     >
       <p className="text-white font-semibold mb-3">Preencha para iniciar o atendimento</p>
@@ -514,7 +466,6 @@ function LeadForm({ className = '' }) {
         <label className="sr-only" htmlFor="lead-name">Nome</label>
         <input
           id="lead-name"
-          name="nome"
           required
           value={name}
           onChange={(event) => setName(event.target.value)}
@@ -524,7 +475,6 @@ function LeadForm({ className = '' }) {
         <label className="sr-only" htmlFor="lead-phone">Telefone</label>
         <input
           id="lead-phone"
-          name="telefone"
           required
           value={phone}
           onChange={handlePhoneChange}
@@ -536,11 +486,10 @@ function LeadForm({ className = '' }) {
       </div>
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100 disabled:hover:bg-green-600"
+        className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:bg-green-700"
       >
         <WhatsAppIcon />
-        {isSubmitting ? 'Enviando...' : 'Enviar e continuar pelo WhatsApp'}
+        Enviar e continuar pelo WhatsApp
       </button>
     </form>
   )
