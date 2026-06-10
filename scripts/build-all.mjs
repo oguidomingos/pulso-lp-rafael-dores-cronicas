@@ -1,0 +1,42 @@
+import fs from "node:fs";
+import path from "node:path";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, "..");
+
+const regionDirs = [
+  "regioes/coluna",
+  "regioes/joelho",
+  "regioes/mao-punho",
+  "regioes/ombro",
+  "regioes/pe-tornozelo",
+  "regioes/quadril",
+];
+
+function runBuild(cwd) {
+  execFileSync("npx", ["vite", "build"], {
+    cwd,
+    stdio: "inherit",
+  });
+}
+
+function copyDir(source, target) {
+  fs.rmSync(target, { recursive: true, force: true });
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.cpSync(source, target, { recursive: true });
+}
+
+runBuild(rootDir);
+
+for (const regionDir of regionDirs) {
+  const absoluteRegionDir = path.join(rootDir, regionDir);
+  const regionSlug = path.basename(regionDir);
+  const sourceDist = path.join(absoluteRegionDir, "dist");
+  const targetDist = path.join(rootDir, "dist", regionSlug);
+
+  runBuild(absoluteRegionDir);
+  copyDir(sourceDist, targetDist);
+}

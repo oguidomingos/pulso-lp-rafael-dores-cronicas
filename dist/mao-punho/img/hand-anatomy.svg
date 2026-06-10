@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <g opacity="0.95">
+    <!-- Rádio e ulna -->
+    <path d="M150 30 C 165 130 175 230 195 340" />
+    <path d="M210 30 C 215 130 220 230 230 340" opacity="0.7" />
+    <path d="M270 30 C 270 130 275 230 280 340" />
+    <path d="M310 30 C 310 130 315 230 320 340" opacity="0.7" />
+    <!-- Carpais (linha proximal: escafoide, semilunar, piramidal, pisiforme) -->
+    <g>
+      <ellipse cx="170" cy="370" rx="22" ry="18" />
+      <ellipse cx="215" cy="368" rx="20" ry="18" />
+      <ellipse cx="258" cy="370" rx="20" ry="18" />
+      <ellipse cx="298" cy="378" rx="18" ry="16" opacity="0.8" />
+    </g>
+    <!-- Carpais (linha distal: trapezio, trapezoide, capitato, hamato) -->
+    <g>
+      <ellipse cx="180" cy="412" rx="22" ry="18" />
+      <ellipse cx="225" cy="412" rx="20" ry="18" />
+      <ellipse cx="268" cy="412" rx="22" ry="18" />
+      <ellipse cx="310" cy="416" rx="20" ry="18" />
+    </g>
+    <!-- Metacarpais (5) -->
+    <path d="M150 430 C 110 480 90 540 75 600" />
+    <path d="M190 432 C 175 510 168 590 160 660" />
+    <path d="M235 432 C 232 510 230 590 228 660" />
+    <path d="M280 432 C 285 510 290 590 295 660" />
+    <path d="M322 430 C 332 510 342 590 352 660" />
+    <!-- Falanges proximais -->
+    <g>
+      <ellipse cx="70" cy="618" rx="22" ry="14" />
+      <ellipse cx="160" cy="680" rx="18" ry="22" />
+      <ellipse cx="228" cy="680" rx="18" ry="22" />
+      <ellipse cx="295" cy="680" rx="18" ry="22" />
+      <ellipse cx="355" cy="680" rx="18" ry="22" />
+    </g>
+    <!-- Falanges medias -->
+    <g opacity="0.85">
+      <ellipse cx="45" cy="660" rx="20" ry="13" />
+      <ellipse cx="158" cy="725" rx="16" ry="18" />
+      <ellipse cx="225" cy="725" rx="16" ry="18" />
+      <ellipse cx="295" cy="725" rx="16" ry="18" />
+      <ellipse cx="358" cy="725" rx="16" ry="18" />
+    </g>
+    <!-- Falanges distais -->
+    <g opacity="0.75">
+      <ellipse cx="155" cy="760" rx="14" ry="14" />
+      <ellipse cx="223" cy="760" rx="14" ry="14" />
+      <ellipse cx="295" cy="760" rx="14" ry="14" />
+      <ellipse cx="360" cy="760" rx="14" ry="14" />
+    </g>
+    <!-- Túnel do carpo (silhueta) -->
+    <path d="M150 390 C 200 405 280 405 320 390" opacity="0.4" stroke-dasharray="2 4" />
+    <!-- Articulação do punho -->
+    <path d="M150 350 C 200 360 290 360 325 350" opacity="0.5" />
+    <!-- Polegar (carpo-metacarpo, base do polegar - rizartrose comum aqui) -->
+    <ellipse cx="120" cy="555" rx="16" ry="14" opacity="0.7" />
+  </g>
+</svg>
