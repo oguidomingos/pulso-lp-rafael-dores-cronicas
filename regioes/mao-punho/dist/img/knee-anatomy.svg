@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <g opacity="0.95">
+    <!-- Fêmur (lateral esquerdo) -->
+    <path d="M210 0 C 205 80 198 160 195 240 C 192 290 196 330 205 370" />
+    <path d="M295 0 C 300 80 308 160 314 240 C 320 290 320 330 315 370" />
+    <!-- Côndilos femorais -->
+    <path d="M195 370 C 175 380 165 400 168 425 C 172 450 195 462 220 458" />
+    <path d="M315 370 C 335 380 348 400 348 425 C 348 450 330 462 310 460" />
+    <ellipse cx="195" cy="412" rx="22" ry="28" />
+    <ellipse cx="320" cy="412" rx="22" ry="28" />
+    <!-- Patela -->
+    <path d="M232 360 C 218 365 210 380 213 400 C 217 425 235 440 258 442 C 281 444 298 432 302 410 C 305 388 295 368 280 362 C 268 358 248 358 232 360 Z" />
+    <path d="M232 380 C 245 385 280 385 295 380" opacity="0.6" />
+    <!-- Espaço articular / meniscos -->
+    <path d="M170 462 C 200 480 350 480 360 462" />
+    <path d="M180 478 C 230 488 290 488 350 478" opacity="0.5" />
+    <!-- Eminência intercondilar -->
+    <path d="M250 470 L 252 488 M 268 470 L 266 488" opacity="0.55" />
+    <!-- Platôs tibiais -->
+    <path d="M165 478 C 160 500 158 525 165 545" />
+    <path d="M365 478 C 370 500 372 525 365 545" />
+    <!-- Tíbia -->
+    <path d="M180 545 C 190 605 195 670 195 740 L 195 800" />
+    <path d="M348 545 C 338 605 333 670 332 740 L 332 800" />
+    <!-- Fíbula (lateral) -->
+    <path d="M360 540 C 372 600 376 670 376 740 L 376 800" opacity="0.7" />
+    <path d="M388 555 C 396 615 398 680 398 740 L 398 800" opacity="0.55" />
+    <!-- Tuberosidade da tíbia -->
+    <path d="M250 545 C 245 560 248 575 258 583 C 270 590 285 588 295 583 C 305 575 308 560 304 545" opacity="0.6" />
+    <!-- Marcações sutis de cartilagem -->
+    <path d="M205 432 C 240 442 320 442 348 432" opacity="0.35" stroke-dasharray="2 4" />
+    <!-- Ligamento patelar (silhueta) -->
+    <path d="M248 442 C 252 470 252 510 256 540" opacity="0.45" />
+    <path d="M276 442 C 280 470 280 510 282 540" opacity="0.45" />
+  </g>
+</svg>
