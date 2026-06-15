@@ -28,6 +28,15 @@ const COLOR_GREEN = '#2e9e6e'
 const COLOR_BLUE_LIGHT = '#5bb4d0'
 const COLOR_BLUE_DEEP = '#1d4e6b'
 
+function scrollToContactForm(event) {
+  event.preventDefault()
+  const form = document.getElementById('agendamento')
+  if (!form) return
+
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  window.history.replaceState(null, '', '#agendamento')
+}
+
 // ── Ícones ──────────────────────────────────────────────────────────────────
 function WhatsAppIcon({ className = 'w-5 h-5' }) {
   return (
@@ -200,7 +209,8 @@ function BtnWA({ children, className = '', size = 'md' }) {
   const pad = size === 'lg' ? 'px-8 py-4 text-base' : 'px-5 py-2.5 text-sm'
   return (
     <a
-      href="#hero"
+      href="#agendamento"
+      onClick={scrollToContactForm}
       className={`inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl ${pad} ${className}`}
     >
       <WhatsAppIcon />
@@ -387,7 +397,8 @@ function Hero() {
 
       {/* WhatsApp fixo mobile */}
       <a
-        href="#hero"
+        href="#agendamento"
+        onClick={scrollToContactForm}
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-center gap-2 bg-green-600 text-white font-semibold py-4 text-base shadow-xl"
       >
         <WhatsAppIcon className="w-6 h-6" />
@@ -843,7 +854,8 @@ function CTAFinal() {
             <p className="text-sm text-gray-600">Atendimento rápido e humanizado</p>
           </div>
           <a
-            href="#hero"
+            href="#agendamento"
+            onClick={scrollToContactForm}
             className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
           >
             <WhatsAppIcon />

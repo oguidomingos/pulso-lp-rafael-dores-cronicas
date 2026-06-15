@@ -25,12 +25,22 @@ const COLOR_ALERT = '#c48631'
 
 const m = DOCTOR
 
+function scrollToContactForm(event) {
+  event.preventDefault()
+  const form = document.getElementById('agendamento')
+  if (!form) return
+
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  window.history.replaceState(null, '', '#agendamento')
+}
+
 // ── Botão WhatsApp ───────────────────────────────────────────────────────────
 function BtnWA({ children, className = '', size = 'md' }) {
   const pad = size === 'lg' ? 'px-8 py-4 text-base' : 'px-5 py-2.5 text-sm'
   return (
     <a
-      href="#hero"
+      href="#agendamento"
+      onClick={scrollToContactForm}
       className={`inline-flex items-center gap-2 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] shadow-md hover:shadow-lg ${pad} ${className}`}
       style={{ backgroundColor: COLOR_GREEN }}
     >
@@ -228,7 +238,8 @@ function Hero() {
       </div>
 
       <a
-        href="#hero"
+        href="#agendamento"
+        onClick={scrollToContactForm}
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-center gap-2 text-white font-semibold py-4 text-base shadow-xl"
         style={{ backgroundColor: COLOR_GREEN }}
       >
@@ -878,7 +889,8 @@ function CTAFinal() {
             </p>
           </div>
           <a
-            href="#hero"
+            href="#agendamento"
+            onClick={scrollToContactForm}
             className="inline-flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-lg transition-all"
             style={{ backgroundColor: COLOR_GREEN }}
           >
