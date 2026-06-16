@@ -214,7 +214,7 @@
       const utmSource = params.get("utm_source") || "";
       const utmMedium = params.get("utm_medium") || "";
       const utmCampaign = params.get("utm_campaign") || "";
-      const leadWebhookUrl = "https://script.google.com/macros/s/AKfycbzuObLS5FTU7Dh6oErgM8SMMpEJnA0FRk00bW-s4OK4rSVkzfUPEpiuVjfLGjnxVQhc/exec";
+      const leadWebhookUrl = "https://api.icebergcompany.com.br/lead-webhook/dr-rafael";
       const whatsappNumber = "5561999190221";
       const message = "Olá! Gostaria de agendar uma consulta com o Dr. Rafael Rocha.";
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -230,17 +230,6 @@
         page_location: pageUrl,
       });
 
-      const leadUrl = new URL(leadWebhookUrl);
-      leadUrl.searchParams.set("created_at", new Date().toISOString());
-      leadUrl.searchParams.set("name", name);
-      leadUrl.searchParams.set("phone", phone);
-      leadUrl.searchParams.set("source", source);
-      leadUrl.searchParams.set("page_url", pageUrl);
-      leadUrl.searchParams.set("utm_source", utmSource);
-      leadUrl.searchParams.set("utm_medium", utmMedium);
-      leadUrl.searchParams.set("utm_campaign", utmCampaign);
-      leadUrl.searchParams.set("notes", "captured_via_thank_you_page");
-
       let redirected = false;
 
       function redirectToWhatsApp() {
@@ -251,10 +240,20 @@
 
       const fallbackTimer = setTimeout(redirectToWhatsApp, 3500);
 
-      fetch(leadUrl.toString(), {
-        method: "GET",
-        mode: "no-cors",
-        cache: "no-store",
+      // Envia o lead pro webhook da Pulso (mesmo pipeline do Luiz/Neo).
+      // O webhook parseia utm_source/medium/campaign/term/content + gclid a
+      // partir de `pagina` (a page_url completa carrega todos os parâmetros).
+      fetch(leadWebhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: name,
+          whatsapp: phone,
+          origem: utmSource || source,
+          pagina: pageUrl,
+          observacao: "captured_via_thank_you_page",
+        }),
+        keepalive: true,
       })
         .catch(() => {})
         .finally(() => {
