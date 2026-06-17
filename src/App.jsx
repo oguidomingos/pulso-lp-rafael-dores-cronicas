@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 const m = {
@@ -27,6 +27,11 @@ const COLOR_SECTION = '#2b373f'
 const COLOR_GREEN = '#2e9e6e'
 const COLOR_BLUE_LIGHT = '#5bb4d0'
 const COLOR_BLUE_DEEP = '#1d4e6b'
+
+function openLeadModal(event) {
+  event?.preventDefault()
+  window.dispatchEvent(new CustomEvent('openLeadModal'))
+}
 
 // ── Ícones ──────────────────────────────────────────────────────────────────
 function WhatsAppIcon({ className = 'w-5 h-5' }) {
@@ -196,16 +201,17 @@ function ScanIcon() {
 }
 
 // ── Botão WhatsApp ───────────────────────────────────────────────────────────
-function BtnWA({ children, className = '', size = 'md' }) {
+function BtnWA({ children, className = '', size = 'md', onClick = openLeadModal }) {
   const pad = size === 'lg' ? 'px-8 py-4 text-base' : 'px-5 py-2.5 text-sm'
   return (
-    <a
-      href="#hero"
+    <button
+      type="button"
+      onClick={onClick}
       className={`inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl ${pad} ${className}`}
     >
       <WhatsAppIcon />
       {children}
-    </a>
+    </button>
   )
 }
 
@@ -342,8 +348,6 @@ function Hero() {
                 </span>
               ))}
             </div>
-            <LeadForm className="mt-8 max-w-xl" />
-
             {/* Rating */}
             <div className="mt-8 flex items-center gap-4">
               <div className="flex gap-0.5">
@@ -386,13 +390,14 @@ function Hero() {
       </div>
 
       {/* WhatsApp fixo mobile */}
-      <a
-        href="#hero"
+      <button
+        type="button"
+        onClick={openLeadModal}
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-center gap-2 bg-green-600 text-white font-semibold py-4 text-base shadow-xl"
       >
         <WhatsAppIcon className="w-6 h-6" />
         Agende Agora
-      </a>
+      </button>
     </section>
   )
 }
@@ -492,6 +497,60 @@ function LeadForm({ className = '' }) {
         Enviar e continuar pelo WhatsApp
       </button>
     </form>
+  )
+}
+
+function LeadModal({ open, onClose }) {
+  useEffect(() => {
+    if (!open) return undefined
+
+    const previousOverflow = document.body.style.overflow
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose()
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [open, onClose])
+
+  if (!open) return null
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-4 py-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lead-modal-title"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose()
+      }}
+    >
+      <div
+        className="relative w-full max-w-lg rounded-2xl p-5 shadow-2xl"
+        style={{ backgroundColor: COLOR_DARKER, border: '1px solid rgba(255,255,255,0.16)' }}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white transition-colors hover:bg-white/20"
+          aria-label="Fechar formulário"
+        >
+          ×
+        </button>
+        <p id="lead-modal-title" className="pr-10 text-xl font-bold text-white">
+          Agende sua consulta
+        </p>
+        <p className="mt-1 pr-10 text-sm text-gray-300">
+          Preencha seus dados para iniciar o atendimento pelo WhatsApp.
+        </p>
+        <LeadForm className="mt-4" />
+      </div>
+    </div>
   )
 }
 
@@ -842,13 +901,14 @@ function CTAFinal() {
             <p className="text-lg font-bold">Agende sua consulta hoje</p>
             <p className="text-sm text-gray-600">Atendimento rápido e humanizado</p>
           </div>
-          <a
-            href="#hero"
+          <button
+            type="button"
+            onClick={openLeadModal}
             className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
           >
             <WhatsAppIcon />
             Agendar Agora
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -904,6 +964,15 @@ function Footer() {
 
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
+  const [leadModalOpen, setLeadModalOpen] = useState(false)
+
+  useEffect(() => {
+    const handleOpenLeadModal = () => setLeadModalOpen(true)
+    window.addEventListener('openLeadModal', handleOpenLeadModal)
+
+    return () => window.removeEventListener('openLeadModal', handleOpenLeadModal)
+  }, [])
+
   return (
     <>
       <Header />
@@ -920,6 +989,7 @@ export default function App() {
         <FAQ />
       </main>
       <Footer />
+      <LeadModal open={leadModalOpen} onClose={() => setLeadModalOpen(false)} />
     </>
   )
 }
