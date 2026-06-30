@@ -207,14 +207,8 @@
 
     <script>
       const params = new URLSearchParams(window.location.search);
-      const name = params.get("name") || "";
-      const phone = params.get("phone") || "";
       const source = params.get("source") || "hero_form";
       const pageUrl = params.get("page_url") || window.location.href;
-      const utmSource = params.get("utm_source") || "";
-      const utmMedium = params.get("utm_medium") || "";
-      const utmCampaign = params.get("utm_campaign") || "";
-      const leadWebhookUrl = "https://api.icebergcompany.com.br/lead-webhook/dr-rafael";
       const whatsappNumber = "5561999190221";
       const message = "Olá! Gostaria de agendar uma consulta com o Dr. Rafael Rocha.";
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -224,8 +218,6 @@
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: "lead_thank_you_view",
-        lead_name: name,
-        lead_phone: phone,
         lead_source: source,
         page_location: pageUrl,
       });
@@ -238,28 +230,10 @@
         window.location.replace(whatsappUrl);
       }
 
-      const fallbackTimer = setTimeout(redirectToWhatsApp, 3500);
-
-      // Envia o lead pro webhook da Pulso (mesmo pipeline do Luiz/Neo).
-      // O webhook parseia utm_source/medium/campaign/term/content + gclid a
-      // partir de `pagina` (a page_url completa carrega todos os parâmetros).
-      fetch(leadWebhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nome: name,
-          whatsapp: phone,
-          origem: utmSource || source,
-          pagina: pageUrl,
-          observacao: "captured_via_thank_you_page",
-        }),
-        keepalive: true,
-      })
-        .catch(() => {})
-        .finally(() => {
-          clearTimeout(fallbackTimer);
-          setTimeout(redirectToWhatsApp, 300);
-        });
+      // A captura do lead agora acontece no submit do formulário da LP.
+      // Esta página só registra a conversão (GTM) e redireciona pro WhatsApp.
+      // 3500ms dá tempo do GTM carregar e disparar a tag de conversão antes do redirect.
+      setTimeout(redirectToWhatsApp, 3500);
     </script>
   </body>
 </html>
