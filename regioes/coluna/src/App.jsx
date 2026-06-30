@@ -293,14 +293,28 @@ function LeadForm({ className = '' }) {
       lead_source: `hero_form_${REGION.slug}`,
       page_location: currentUrl.toString(),
     })
+    // Sem PII (nome/telefone) na URL da thank-you: ela só dispara conversão,
+    // dado pessoal já foi capturado no webhook abaixo. UTMs não vão soltos
+    // porque já estão embutidos em page_url.
     const thankYouUrl = new URL(`${import.meta.env.BASE_URL}obg-wpp/index.html`, window.location.origin)
-    thankYouUrl.searchParams.set('name', name)
-    thankYouUrl.searchParams.set('phone', phone)
     thankYouUrl.searchParams.set('source', `hero_form_${REGION.slug}`)
     thankYouUrl.searchParams.set('page_url', currentUrl.toString())
-    thankYouUrl.searchParams.set('utm_source', currentUrl.searchParams.get('utm_source') || '')
-    thankYouUrl.searchParams.set('utm_medium', currentUrl.searchParams.get('utm_medium') || '')
-    thankYouUrl.searchParams.set('utm_campaign', currentUrl.searchParams.get('utm_campaign') || '')
+
+    // Captura do lead no submit: lê os parâmetros coletados pelo GTM (window.getTracking)
+    // e envia ao webhook. keepalive garante que o POST sobreviva ao redirect abaixo.
+    const tracking = typeof window.getTracking === 'function' ? window.getTracking() : {}
+    fetch('https://api.icebergcompany.com.br/lead-webhook/dr-rafael', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify(Object.assign({
+        nome: name,
+        whatsapp: phone,
+        origem: `hero_form_${REGION.slug}`,
+        pagina: currentUrl.toString(),
+      }, tracking)),
+    }).catch(() => {})
+
     window.location.href = thankYouUrl.toString()
   }
 
