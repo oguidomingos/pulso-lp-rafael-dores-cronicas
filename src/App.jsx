@@ -521,7 +521,7 @@ function Stats() {
   )
 }
 
-function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
+function ConveniosAMHP() {
   const conveniosPorLetra = AMHP_CONVENIOS.reduce((groups, convenio) => {
     const letter = convenio[0]
     groups[letter] = [...(groups[letter] || []), convenio]
@@ -529,100 +529,42 @@ function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
   }, {})
 
   return (
-    <section id="convenios" className="py-16 lg:py-24" style={{ backgroundColor: COLOR_SECTION }}>
+    <section id="convenios" className="scroll-mt-24 py-16 lg:py-24" style={{ backgroundColor: COLOR_SECTION }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.6fr] lg:items-start">
-          <div className="lg:sticky lg:top-28">
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">
-              Convênios atendidos
-            </h2>
-            <p className="mt-4 text-gray-300 leading-relaxed">
-              Confira se o seu convênio está na lista e confirme a elegibilidade no momento do agendamento.
-            </p>
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:max-w-md">
-              <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: COLOR_CARD }}>
-                <p className="text-3xl font-bold" style={{ color: COLOR_BLUE_LIGHT }}>
-                  {AMHP_CONVENIOS.length}
-                </p>
-                <p className="mt-1 text-sm text-gray-400">convênios na lista</p>
-              </div>
-              <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: COLOR_CARD }}>
-                <p className="text-3xl font-bold" style={{ color: COLOR_BLUE_LIGHT }}>
-                  1
-                </p>
-                <p className="mt-1 text-sm text-gray-400">formulário para confirmar atendimento</p>
-              </div>
-            </div>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-              <button
-                type="button"
-                onClick={onToggleOpen}
-                aria-expanded={isOpen}
-                aria-controls="convenios-list"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/15"
-              >
-                {isOpen ? 'Ocultar lista' : 'Abrir lista de convênios'}
-                <span className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                  <ChevronDownIcon />
-                </span>
-              </button>
-              <BtnWA size="lg">Confirmar meu convênio</BtnWA>
-            </div>
-          </div>
+        <h2 className="text-3xl font-bold text-white lg:text-4xl">
+          Lista de convênios
+        </h2>
 
-          <div id="convenios-list" className="scroll-mt-24">
-            {isOpen ? (
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
-                  <div key={letter} className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: COLOR_CARD }}>
-                    <div className="mb-4 flex items-center gap-3">
-                      <span
-                        className="flex h-10 w-10 items-center justify-center rounded-full text-base font-bold"
-                        style={{ backgroundColor: 'rgba(91,180,208,0.16)', color: COLOR_BLUE_LIGHT }}
-                      >
-                        {letter}
-                      </span>
-                      <span className="text-sm font-semibold text-gray-400">
-                        {convenios.length} {convenios.length === 1 ? 'convênio' : 'convênios'}
-                      </span>
-                    </div>
-                    <ul className="space-y-2">
-                      {convenios.map(convenio => (
-                        <li key={convenio} className="flex gap-2 text-sm leading-snug text-gray-200">
-                          <span className="mt-0.5 flex-shrink-0" style={{ color: COLOR_BLUE_LIGHT }}>
-                            <CheckIcon />
-                          </span>
-                          <span className="break-words">{convenio}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+        <div id="convenios-list" className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
+            <div key={letter} className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: COLOR_CARD }}>
+              <div className="mb-4 flex items-center gap-3">
+                <span
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-base font-bold"
+                  style={{ backgroundColor: 'rgba(91,180,208,0.16)', color: COLOR_BLUE_LIGHT }}
+                >
+                  {letter}
+                </span>
+                <span className="text-sm font-semibold text-gray-400">
+                  {convenios.length} {convenios.length === 1 ? 'convênio' : 'convênios'}
+                </span>
+              </div>
+              <ul className="space-y-2">
+                {convenios.map(convenio => (
+                  <li key={convenio} className="flex gap-2 text-sm leading-snug text-gray-200">
+                    <span className="mt-0.5 flex-shrink-0" style={{ color: COLOR_BLUE_LIGHT }}>
+                      <CheckIcon />
+                    </span>
+                    <span className="break-words">{convenio}</span>
+                  </li>
                 ))}
-              </div>
-            ) : (
-              <div className="rounded-xl border border-white/10 p-6 lg:p-8" style={{ backgroundColor: COLOR_CARD }}>
-                <div className="max-w-2xl">
-                  <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>
-                    Lista de convênios
-                  </span>
-                  <h3 className="mt-2 text-2xl font-bold text-white">
-                    Clique para ver os convênios atendidos
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={onToggleOpen}
-                    aria-expanded={isOpen}
-                    aria-controls="convenios-list"
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 sm:w-auto sm:px-10 sm:py-5 sm:text-lg"
-                    style={{ backgroundColor: COLOR_GREEN }}
-                  >
-                    Ver {AMHP_CONVENIOS.length} convênios
-                    <ChevronDownIcon />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <BtnWA size="lg">Confirmar meu convênio</BtnWA>
         </div>
       </div>
     </section>
@@ -1179,28 +1121,18 @@ function Footer() {
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const [leadModalOpen, setLeadModalOpen] = useState(false)
-  const [conveniosOpen, setConveniosOpen] = useState(false)
   const isIgPage = isIgPath()
 
-  function scrollToConveniosList() {
+  function scrollToConveniosSection() {
     window.setTimeout(() => {
-      document.getElementById('convenios-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      document.getElementById('convenios')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 0)
   }
 
   function handleOpenConvenios(event) {
     event?.preventDefault()
     if (!isIgPage) return
-    setConveniosOpen(false)
-    scrollToConveniosList()
-  }
-
-  function handleToggleConvenios() {
-    setConveniosOpen(open => {
-      const nextOpen = !open
-      if (nextOpen) scrollToConveniosList()
-      return nextOpen
-    })
+    scrollToConveniosSection()
   }
 
   useEffect(() => {
@@ -1212,8 +1144,7 @@ export default function App() {
 
   useEffect(() => {
     if (isIgPage && ['#convenios', '#convenios-list'].includes(window.location.hash)) {
-      setConveniosOpen(false)
-      scrollToConveniosList()
+      scrollToConveniosSection()
     }
   }, [isIgPage])
 
@@ -1223,7 +1154,7 @@ export default function App() {
       <main>
         <Hero showConveniosButton={isIgPage} onConveniosClick={handleOpenConvenios} />
         <Stats />
-        {isIgPage && <ConveniosAMHP isOpen={conveniosOpen} onToggleOpen={handleToggleConvenios} />}
+        {isIgPage && <ConveniosAMHP />}
         <Especialidades />
         <Procedimentos />
         <DoctoraliaBand />
