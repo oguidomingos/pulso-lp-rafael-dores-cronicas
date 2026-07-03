@@ -28,9 +28,69 @@ const COLOR_GREEN = '#2e9e6e'
 const COLOR_BLUE_LIGHT = '#5bb4d0'
 const COLOR_BLUE_DEEP = '#1d4e6b'
 
+const AMHP_CONVENIOS = [
+  'AFEB BRASAL',
+  'AFFEGO',
+  'ANAFE SAÚDE',
+  'BACEN',
+  'BRB (SAÚDE BRB)',
+  'CAEME - GO',
+  'CAESAN',
+  'CAMED',
+  'CARE PLUS',
+  'CASEC (CODEVASF)',
+  'CASEMBRAPA (EMBRAPA)',
+  'CBMDF',
+  'CLIQUE MÉDICOS',
+  'CNTI',
+  'CONAB',
+  'EMBRATEL (TELOS)',
+  'FAPES (BNDES)',
+  'FASCAL',
+  'GDF SAÚDE',
+  'GEAP',
+  'GRAVIA',
+  'LIFE EMPRESARIAL',
+  'LUMINAR SAÚDE (EVIDA)',
+  'NOTRE DAME',
+  'OMINT SAÚDE',
+  'PF SAÚDE (POLÍCIA FEDERAL)',
+  'PLAN ASSISTE (MPU)',
+  'PLAS/JMU (STM)',
+  'PMDF - CONSULTAS MÉDICAS',
+  'PMDF - SAÚDE MENTAL E TERAPIAS',
+  'POSTAL SAÚDE (ECT) - (SUSPENSO)',
+  'PROASA',
+  'PRÓ-SAÚDE (CÂMARA DOS DEPUTADOS)',
+  'PRÓ-SAÚDE (TJDFT)',
+  'PRÓ-SER (STJ)',
+  'PRÓ-SOCIAL (TRF)',
+  'REAL GRANDEZA (DEMAIS PLANOS)',
+  'REAL GRANDEZA (SALVUS E SALUTEM)',
+  'SAÚDE CAIXA',
+  'SAÚDE PETROBRAS',
+  'SERPRO',
+  'SIS SENADO',
+  'STF-MED (STF)',
+  'TRE SAÚDE',
+  'TRT SAÚDE',
+  'TST SAÚDE',
+  'UNAFISCO SAÚDE (DEMAIS PLANOS)',
+  'UNAFISCO SAÚDE (PREMIUM)',
+]
+
 function openLeadModal(event) {
   event?.preventDefault()
   window.dispatchEvent(new CustomEvent('openLeadModal'))
+}
+
+function isIgPath() {
+  if (typeof window === 'undefined') return false
+  const normalizedPath = window.location.pathname
+    .replace(/\/index\.html$/, '')
+    .replace(/\/+$/, '')
+
+  return normalizedPath.endsWith('/ig')
 }
 
 // ── Ícones ──────────────────────────────────────────────────────────────────
@@ -216,9 +276,10 @@ function BtnWA({ children, className = '', size = 'md', onClick = openLeadModal 
 }
 
 // ── Header ───────────────────────────────────────────────────────────────────
-function Header() {
+function Header({ showConveniosLink = false }) {
   const [open, setOpen] = useState(false)
   const links = [
+    ...(showConveniosLink ? [{ href: '#convenios', label: 'Convênios' }] : []),
     { href: '#especialidades', label: 'Especialidades' },
     { href: '#procedimentos', label: 'Procedimentos' },
     { href: '#depoimentos', label: 'Depoimentos' },
@@ -270,7 +331,7 @@ function Header() {
 }
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
-function Hero() {
+function Hero({ showConveniosButton = false }) {
   const heroHighlights = [
     { text: 'Aceitamos convênios', icon: ShieldIcon },
     { text: 'Consulta personalizada', icon: UserIcon },
@@ -319,7 +380,7 @@ function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-0 lg:pt-0 w-full">
         <div className="grid lg:grid-cols-2 gap-12 items-end">
           {/* Texto */}
-          <div className="order-1 lg:order-1 pb-12 lg:pb-24">
+          <div className={`order-1 lg:order-1 lg:pb-24 ${showConveniosButton ? 'pb-28' : 'pb-12'}`}>
             <span className="inline-block text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: COLOR_BLUE_LIGHT }}>
               Tratamento ortopédico especializado
             </span>
@@ -348,6 +409,20 @@ function Hero() {
                 </span>
               ))}
             </div>
+            {showConveniosButton && (
+              <div className="mb-8 flex flex-col gap-3 sm:flex-row">
+                <BtnWA size="lg" className="justify-center">
+                  Agende sua Consulta
+                </BtnWA>
+                <a
+                  href="#convenios"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-8 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/15"
+                >
+                  <ShieldIcon />
+                  Ver lista de convênios
+                </a>
+              </div>
+            )}
             {/* Rating */}
             <div className="mt-8 flex items-center gap-4">
               <div className="flex gap-0.5">
@@ -390,14 +465,16 @@ function Hero() {
       </div>
 
       {/* WhatsApp fixo mobile */}
-      <button
-        type="button"
-        onClick={openLeadModal}
-        className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-center gap-2 bg-green-600 text-white font-semibold py-4 text-base shadow-xl"
-      >
-        <WhatsAppIcon className="w-6 h-6" />
-        Agende Agora
-      </button>
+      {!showConveniosButton && (
+        <button
+          type="button"
+          onClick={openLeadModal}
+          className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-center gap-2 bg-green-600 text-white font-semibold py-4 text-base shadow-xl"
+        >
+          <WhatsAppIcon className="w-6 h-6" />
+          Agende Agora
+        </button>
+      )}
     </section>
   )
 }
@@ -423,6 +500,91 @@ function Stats() {
               <p className="text-gray-400 text-sm mt-1">{s.label}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ConveniosAMHP() {
+  const conveniosPorLetra = AMHP_CONVENIOS.reduce((groups, convenio) => {
+    const letter = convenio[0]
+    groups[letter] = [...(groups[letter] || []), convenio]
+    return groups
+  }, {})
+
+  return (
+    <section id="convenios" className="py-16 lg:py-24" style={{ backgroundColor: COLOR_SECTION }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.6fr] lg:items-start">
+          <div className="lg:sticky lg:top-28">
+            <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>
+              Convênios AMHP
+            </span>
+            <h2 className="mt-2 text-3xl font-bold text-white lg:text-4xl">
+              Lista de convênios atendidos
+            </h2>
+            <p className="mt-4 text-gray-300 leading-relaxed">
+              Atendemos convênios associados à AMHP. A cobertura pode variar de acordo com o plano, contrato e procedimento indicado.
+            </p>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:max-w-md">
+              <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: COLOR_CARD }}>
+                <p className="text-3xl font-bold" style={{ color: COLOR_BLUE_LIGHT }}>
+                  {AMHP_CONVENIOS.length}
+                </p>
+                <p className="mt-1 text-sm text-gray-400">convênios listados pela AMHP</p>
+              </div>
+              <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: COLOR_CARD }}>
+                <p className="text-3xl font-bold" style={{ color: COLOR_BLUE_LIGHT }}>
+                  1
+                </p>
+                <p className="mt-1 text-sm text-gray-400">formulário para confirmar atendimento</p>
+              </div>
+            </div>
+            <p className="mt-5 text-xs leading-relaxed text-gray-500">
+              Lista baseada nos convênios ativos divulgados pela{' '}
+              <a
+                href="https://www.amhp.com.br/pages/convenios/"
+                target="_blank"
+                rel="noreferrer"
+                className="underline transition-colors hover:text-gray-300"
+              >
+                AMHP
+              </a>
+              . Confirme a elegibilidade no momento do agendamento.
+            </p>
+            <div className="mt-6">
+              <BtnWA size="lg">Confirmar meu convênio</BtnWA>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
+              <div key={letter} className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: COLOR_CARD }}>
+                <div className="mb-4 flex items-center gap-3">
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-full text-base font-bold"
+                    style={{ backgroundColor: 'rgba(91,180,208,0.16)', color: COLOR_BLUE_LIGHT }}
+                  >
+                    {letter}
+                  </span>
+                  <span className="text-sm font-semibold text-gray-400">
+                    {convenios.length} {convenios.length === 1 ? 'convênio' : 'convênios'}
+                  </span>
+                </div>
+                <ul className="space-y-2">
+                  {convenios.map(convenio => (
+                    <li key={convenio} className="flex gap-2 text-sm leading-snug text-gray-200">
+                      <span className="mt-0.5 flex-shrink-0" style={{ color: COLOR_BLUE_LIGHT }}>
+                        <CheckIcon />
+                      </span>
+                      <span className="break-words">{convenio}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -979,6 +1141,7 @@ function Footer() {
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const [leadModalOpen, setLeadModalOpen] = useState(false)
+  const isIgPage = isIgPath()
 
   useEffect(() => {
     const handleOpenLeadModal = () => setLeadModalOpen(true)
@@ -989,10 +1152,11 @@ export default function App() {
 
   return (
     <>
-      <Header />
+      <Header showConveniosLink={isIgPage} />
       <main>
-        <Hero />
+        <Hero showConveniosButton={isIgPage} />
         <Stats />
+        {isIgPage && <ConveniosAMHP />}
         <Especialidades />
         <Procedimentos />
         <DoctoraliaBand />

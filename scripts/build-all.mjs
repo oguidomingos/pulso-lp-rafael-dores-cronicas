@@ -16,10 +16,13 @@ const regionDirs = [
   "regioes/quadril",
 ];
 
+const rootSlugs = ["ig"];
+
 function runBuild(cwd) {
   execFileSync("npx", ["vite", "build"], {
     cwd,
     stdio: "inherit",
+    shell: process.platform === "win32",
   });
 }
 
@@ -29,7 +32,26 @@ function copyDir(source, target) {
   fs.cpSync(source, target, { recursive: true });
 }
 
+function copyRootSlug(slug) {
+  const distDir = path.join(rootDir, "dist");
+  const targetDir = path.join(distDir, slug);
+  const entries = ["index.html", "assets", "img", "favicon.svg", "icons.svg"];
+
+  fs.rmSync(targetDir, { recursive: true, force: true });
+  fs.mkdirSync(targetDir, { recursive: true });
+
+  for (const entry of entries) {
+    const source = path.join(distDir, entry);
+    if (!fs.existsSync(source)) continue;
+    fs.cpSync(source, path.join(targetDir, entry), { recursive: true });
+  }
+}
+
 runBuild(rootDir);
+
+for (const slug of rootSlugs) {
+  copyRootSlug(slug);
+}
 
 for (const regionDir of regionDirs) {
   const absoluteRegionDir = path.join(rootDir, regionDir);
