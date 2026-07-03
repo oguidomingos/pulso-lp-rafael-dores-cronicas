@@ -276,10 +276,10 @@ function BtnWA({ children, className = '', size = 'md', onClick = openLeadModal 
 }
 
 // ── Header ───────────────────────────────────────────────────────────────────
-function Header({ showConveniosLink = false }) {
+function Header({ showConveniosLink = false, onConveniosClick }) {
   const [open, setOpen] = useState(false)
   const links = [
-    ...(showConveniosLink ? [{ href: '#convenios', label: 'Convênios' }] : []),
+    ...(showConveniosLink ? [{ href: '#convenios', label: 'Convênios', onClick: onConveniosClick }] : []),
     { href: '#especialidades', label: 'Especialidades' },
     { href: '#procedimentos', label: 'Procedimentos' },
     { href: '#depoimentos', label: 'Depoimentos' },
@@ -295,7 +295,12 @@ function Header({ showConveniosLink = false }) {
           </a>
           <nav className="hidden lg:flex items-center gap-8">
             {links.map(l => (
-              <a key={l.href} href={l.href} className="text-gray-600 hover:text-brand-blue font-medium transition-colors">
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={l.onClick}
+                className="text-gray-600 hover:text-brand-blue font-medium transition-colors"
+              >
                 {l.label}
               </a>
             ))}
@@ -318,7 +323,15 @@ function Header({ showConveniosLink = false }) {
         {open && (
           <div className="lg:hidden border-t border-gray-100 py-4 space-y-3">
             {links.map(l => (
-              <a key={l.href} href={l.href} className="block text-gray-600 hover:text-brand-blue font-medium transition-colors py-1" onClick={() => setOpen(false)}>
+              <a
+                key={l.href}
+                href={l.href}
+                className="block text-gray-600 hover:text-brand-blue font-medium transition-colors py-1"
+                onClick={(event) => {
+                  l.onClick?.(event)
+                  setOpen(false)
+                }}
+              >
                 {l.label}
               </a>
             ))}
@@ -331,7 +344,7 @@ function Header({ showConveniosLink = false }) {
 }
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
-function Hero({ showConveniosButton = false }) {
+function Hero({ showConveniosButton = false, onConveniosClick }) {
   const heroHighlights = [
     { text: 'Aceitamos convênios', icon: ShieldIcon },
     { text: 'Consulta personalizada', icon: UserIcon },
@@ -414,13 +427,15 @@ function Hero({ showConveniosButton = false }) {
                 <BtnWA size="lg" className="justify-center">
                   Agende sua Consulta
                 </BtnWA>
-                <a
-                  href="#convenios"
+                <button
+                  type="button"
+                  onClick={onConveniosClick}
+                  aria-controls="convenios-list"
                   className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-8 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/15"
                 >
                   <ShieldIcon />
                   Ver lista de convênios
-                </a>
+                </button>
               </div>
             )}
             {/* Rating */}
@@ -506,7 +521,7 @@ function Stats() {
   )
 }
 
-function ConveniosAMHP() {
+function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
   const conveniosPorLetra = AMHP_CONVENIOS.reduce((groups, convenio) => {
     const letter = convenio[0]
     groups[letter] = [...(groups[letter] || []), convenio]
@@ -553,37 +568,78 @@ function ConveniosAMHP() {
               </a>
               . Confirme a elegibilidade no momento do agendamento.
             </p>
-            <div className="mt-6">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <button
+                type="button"
+                onClick={onToggleOpen}
+                aria-expanded={isOpen}
+                aria-controls="convenios-list"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/15"
+              >
+                {isOpen ? 'Ocultar lista' : 'Abrir lista de convênios'}
+                <span className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                  <ChevronDownIcon />
+                </span>
+              </button>
               <BtnWA size="lg">Confirmar meu convênio</BtnWA>
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
-              <div key={letter} className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: COLOR_CARD }}>
-                <div className="mb-4 flex items-center gap-3">
-                  <span
-                    className="flex h-10 w-10 items-center justify-center rounded-full text-base font-bold"
-                    style={{ backgroundColor: 'rgba(91,180,208,0.16)', color: COLOR_BLUE_LIGHT }}
-                  >
-                    {letter}
-                  </span>
-                  <span className="text-sm font-semibold text-gray-400">
-                    {convenios.length} {convenios.length === 1 ? 'convênio' : 'convênios'}
-                  </span>
-                </div>
-                <ul className="space-y-2">
-                  {convenios.map(convenio => (
-                    <li key={convenio} className="flex gap-2 text-sm leading-snug text-gray-200">
-                      <span className="mt-0.5 flex-shrink-0" style={{ color: COLOR_BLUE_LIGHT }}>
-                        <CheckIcon />
+          <div id="convenios-list">
+            {isOpen ? (
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
+                  <div key={letter} className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: COLOR_CARD }}>
+                    <div className="mb-4 flex items-center gap-3">
+                      <span
+                        className="flex h-10 w-10 items-center justify-center rounded-full text-base font-bold"
+                        style={{ backgroundColor: 'rgba(91,180,208,0.16)', color: COLOR_BLUE_LIGHT }}
+                      >
+                        {letter}
                       </span>
-                      <span className="break-words">{convenio}</span>
-                    </li>
-                  ))}
-                </ul>
+                      <span className="text-sm font-semibold text-gray-400">
+                        {convenios.length} {convenios.length === 1 ? 'convênio' : 'convênios'}
+                      </span>
+                    </div>
+                    <ul className="space-y-2">
+                      {convenios.map(convenio => (
+                        <li key={convenio} className="flex gap-2 text-sm leading-snug text-gray-200">
+                          <span className="mt-0.5 flex-shrink-0" style={{ color: COLOR_BLUE_LIGHT }}>
+                            <CheckIcon />
+                          </span>
+                          <span className="break-words">{convenio}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className="rounded-xl border border-white/10 p-6 lg:p-8" style={{ backgroundColor: COLOR_CARD }}>
+                <div className="max-w-2xl">
+                  <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>
+                    Lista fechada
+                  </span>
+                  <h3 className="mt-2 text-2xl font-bold text-white">
+                    Clique para ver os convênios atendidos
+                  </h3>
+                  <p className="mt-3 text-gray-300 leading-relaxed">
+                    A lista completa abre aqui na página, sem pop-up, para facilitar a consulta antes de agendar.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={onToggleOpen}
+                    aria-expanded={isOpen}
+                    aria-controls="convenios-list"
+                    className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
+                    style={{ backgroundColor: COLOR_GREEN }}
+                  >
+                    Ver {AMHP_CONVENIOS.length} convênios
+                    <ChevronDownIcon />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1141,7 +1197,29 @@ function Footer() {
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const [leadModalOpen, setLeadModalOpen] = useState(false)
+  const [conveniosOpen, setConveniosOpen] = useState(false)
   const isIgPage = isIgPath()
+
+  function scrollToConveniosSection() {
+    window.setTimeout(() => {
+      document.getElementById('convenios')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 0)
+  }
+
+  function handleOpenConvenios(event) {
+    event?.preventDefault()
+    if (!isIgPage) return
+    setConveniosOpen(true)
+    scrollToConveniosSection()
+  }
+
+  function handleToggleConvenios() {
+    setConveniosOpen(open => {
+      const nextOpen = !open
+      if (nextOpen) scrollToConveniosSection()
+      return nextOpen
+    })
+  }
 
   useEffect(() => {
     const handleOpenLeadModal = () => setLeadModalOpen(true)
@@ -1150,13 +1228,20 @@ export default function App() {
     return () => window.removeEventListener('openLeadModal', handleOpenLeadModal)
   }, [])
 
+  useEffect(() => {
+    if (isIgPage && window.location.hash === '#convenios') {
+      setConveniosOpen(true)
+      scrollToConveniosSection()
+    }
+  }, [isIgPage])
+
   return (
     <>
-      <Header showConveniosLink={isIgPage} />
+      <Header showConveniosLink={isIgPage} onConveniosClick={handleOpenConvenios} />
       <main>
-        <Hero showConveniosButton={isIgPage} />
+        <Hero showConveniosButton={isIgPage} onConveniosClick={handleOpenConvenios} />
         <Stats />
-        {isIgPage && <ConveniosAMHP />}
+        {isIgPage && <ConveniosAMHP isOpen={conveniosOpen} onToggleOpen={handleToggleConvenios} />}
         <Especialidades />
         <Procedimentos />
         <DoctoraliaBand />
