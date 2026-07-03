@@ -533,21 +533,18 @@ function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.6fr] lg:items-start">
           <div className="lg:sticky lg:top-28">
-            <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>
-              Convênios AMHP
-            </span>
-            <h2 className="mt-2 text-3xl font-bold text-white lg:text-4xl">
-              Lista de convênios atendidos
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">
+              Convênios atendidos
             </h2>
             <p className="mt-4 text-gray-300 leading-relaxed">
-              Atendemos convênios associados à AMHP. A cobertura pode variar de acordo com o plano, contrato e procedimento indicado.
+              Confira se o seu convênio está na lista e confirme a elegibilidade no momento do agendamento.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-3 sm:max-w-md">
               <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: COLOR_CARD }}>
                 <p className="text-3xl font-bold" style={{ color: COLOR_BLUE_LIGHT }}>
                   {AMHP_CONVENIOS.length}
                 </p>
-                <p className="mt-1 text-sm text-gray-400">convênios listados pela AMHP</p>
+                <p className="mt-1 text-sm text-gray-400">convênios na lista</p>
               </div>
               <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: COLOR_CARD }}>
                 <p className="text-3xl font-bold" style={{ color: COLOR_BLUE_LIGHT }}>
@@ -556,18 +553,6 @@ function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
                 <p className="mt-1 text-sm text-gray-400">formulário para confirmar atendimento</p>
               </div>
             </div>
-            <p className="mt-5 text-xs leading-relaxed text-gray-500">
-              Lista baseada nos convênios ativos divulgados pela{' '}
-              <a
-                href="https://www.amhp.com.br/pages/convenios/"
-                target="_blank"
-                rel="noreferrer"
-                className="underline transition-colors hover:text-gray-300"
-              >
-                AMHP
-              </a>
-              . Confirme a elegibilidade no momento do agendamento.
-            </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
               <button
                 type="button"
@@ -585,7 +570,7 @@ function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
             </div>
           </div>
 
-          <div id="convenios-list">
+          <div id="convenios-list" className="scroll-mt-24">
             {isOpen ? (
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
@@ -618,20 +603,17 @@ function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
               <div className="rounded-xl border border-white/10 p-6 lg:p-8" style={{ backgroundColor: COLOR_CARD }}>
                 <div className="max-w-2xl">
                   <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: COLOR_BLUE_LIGHT }}>
-                    Lista fechada
+                    Lista de convênios
                   </span>
                   <h3 className="mt-2 text-2xl font-bold text-white">
                     Clique para ver os convênios atendidos
                   </h3>
-                  <p className="mt-3 text-gray-300 leading-relaxed">
-                    A lista completa abre aqui na página, sem pop-up, para facilitar a consulta antes de agendar.
-                  </p>
                   <button
                     type="button"
                     onClick={onToggleOpen}
                     aria-expanded={isOpen}
                     aria-controls="convenios-list"
-                    className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
+                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 sm:w-auto sm:px-10 sm:py-5 sm:text-lg"
                     style={{ backgroundColor: COLOR_GREEN }}
                   >
                     Ver {AMHP_CONVENIOS.length} convênios
@@ -1200,23 +1182,23 @@ export default function App() {
   const [conveniosOpen, setConveniosOpen] = useState(false)
   const isIgPage = isIgPath()
 
-  function scrollToConveniosSection() {
+  function scrollToConveniosList() {
     window.setTimeout(() => {
-      document.getElementById('convenios')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      document.getElementById('convenios-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 0)
   }
 
   function handleOpenConvenios(event) {
     event?.preventDefault()
     if (!isIgPage) return
-    setConveniosOpen(true)
-    scrollToConveniosSection()
+    setConveniosOpen(false)
+    scrollToConveniosList()
   }
 
   function handleToggleConvenios() {
     setConveniosOpen(open => {
       const nextOpen = !open
-      if (nextOpen) scrollToConveniosSection()
+      if (nextOpen) scrollToConveniosList()
       return nextOpen
     })
   }
@@ -1229,9 +1211,9 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    if (isIgPage && window.location.hash === '#convenios') {
-      setConveniosOpen(true)
-      scrollToConveniosSection()
+    if (isIgPage && ['#convenios', '#convenios-list'].includes(window.location.hash)) {
+      setConveniosOpen(false)
+      scrollToConveniosList()
     }
   }, [isIgPage])
 
