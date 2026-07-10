@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { REGION, DOCTOR } from './region.jsx'
+import { ConveniosAtendidos } from '../../../src/convenios.jsx'
 import {
   WhatsAppIcon, StarIcon, ChevronDownIcon, MapPinIcon, ClockIcon, CheckIcon, AlertIcon,
   ShieldIcon, UserIcon, ScalpelIcon,
@@ -58,9 +59,10 @@ function Eyebrow({ children, light = false }) {
 }
 
 // ── Header ───────────────────────────────────────────────────────────────────
-function Header() {
+function Header({ onConveniosClick }) {
   const [open, setOpen] = useState(false)
   const links = [
+    { href: '#convenios', label: 'Convênios', onClick: onConveniosClick },
     { href: '#sintomas', label: 'Sintomas' },
     { href: '#causas', label: 'Causas' },
     { href: '#procedimentos', label: 'Procedimentos' },
@@ -84,6 +86,7 @@ function Header() {
                 href={l.href}
                 className="font-medium transition-colors"
                 style={{ color: COLOR_MUTED }}
+                onClick={l.onClick}
                 onMouseEnter={(e) => (e.currentTarget.style.color = COLOR_TEAL_DEEP)}
                 onMouseLeave={(e) => (e.currentTarget.style.color = COLOR_MUTED)}
               >
@@ -115,7 +118,10 @@ function Header() {
                 href={l.href}
                 className="block font-medium py-1"
                 style={{ color: COLOR_MUTED }}
-                onClick={() => setOpen(false)}
+                onClick={(event) => {
+                  l.onClick?.(event)
+                  setOpen(false)
+                }}
               >
                 {l.label}
               </a>
@@ -129,7 +135,7 @@ function Header() {
 }
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
-function Hero() {
+function Hero({ onConveniosClick }) {
   const heroHighlights = [
     { text: 'Aceitamos convênios', icon: ShieldIcon },
     { text: 'Avaliação personalizada', icon: UserIcon },
@@ -193,6 +199,21 @@ function Hero() {
                   {text}
                 </span>
               ))}
+            </div>
+            <div className="mb-8 flex flex-col gap-3 sm:flex-row">
+              <BtnWA size="lg" className="justify-center">
+                Agendar Avaliação
+              </BtnWA>
+              <button
+                type="button"
+                onClick={onConveniosClick}
+                aria-controls="convenios-list"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white bg-white px-8 py-4 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-gray-100"
+                style={{ color: COLOR_NAVY_DEEP }}
+              >
+                <ShieldIcon />
+                Ver lista de convênios
+              </button>
             </div>
             <div className="mt-8 flex items-center gap-4">
               <div className="flex gap-0.5">
@@ -1030,6 +1051,23 @@ function Footer() {
 // ── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [leadModalOpen, setLeadModalOpen] = useState(false)
+  const [conveniosOpen, setConveniosOpen] = useState(false)
+
+  function scrollToConveniosSection() {
+    window.setTimeout(() => {
+      document.getElementById('convenios')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 0)
+  }
+
+  function handleOpenConvenios(event) {
+    event?.preventDefault()
+    setConveniosOpen(true)
+    scrollToConveniosSection()
+  }
+
+  function handleToggleConvenios() {
+    setConveniosOpen(open => !open)
+  }
 
   useEffect(() => {
     const handleOpenLeadModal = () => setLeadModalOpen(true)
@@ -1038,12 +1076,33 @@ export default function App() {
     return () => window.removeEventListener('openLeadModal', handleOpenLeadModal)
   }, [])
 
+  useEffect(() => {
+    if (['#convenios', '#convenios-list'].includes(window.location.hash)) {
+      setConveniosOpen(true)
+      scrollToConveniosSection()
+    }
+  }, [])
+
   return (
     <>
-      <Header />
+      <Header onConveniosClick={handleOpenConvenios} />
       <main>
-        <Hero />
+        <Hero onConveniosClick={handleOpenConvenios} />
         <Stats />
+        <ConveniosAtendidos
+          isOpen={conveniosOpen}
+          onToggleOpen={handleToggleConvenios}
+          CtaButton={BtnWA}
+          ShieldIcon={ShieldIcon}
+          CheckIcon={CheckIcon}
+          ChevronDownIcon={ChevronDownIcon}
+          palette={{
+            section: COLOR_NAVY_DK,
+            card: COLOR_NAVY_DEEP,
+            accent: COLOR_MINT,
+            iconBackground: 'rgba(184,221,224,0.14)',
+          }}
+        />
         <Sintomas />
         <Causas />
         <QuandoProcurar />

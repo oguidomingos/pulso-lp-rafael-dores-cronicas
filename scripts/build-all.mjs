@@ -35,7 +35,7 @@ function copyDir(source, target) {
 function copyRootSlug(slug) {
   const distDir = path.join(rootDir, "dist");
   const targetDir = path.join(distDir, slug);
-  const entries = ["index.html", "assets", "img", "favicon.svg", "icons.svg"];
+  const entries = ["index.html", "assets", "img", "favicon.svg", "favicon.png", "icons.svg"];
 
   fs.rmSync(targetDir, { recursive: true, force: true });
   fs.mkdirSync(targetDir, { recursive: true });

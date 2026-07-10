@@ -10,7 +10,7 @@ function copyStaticAssets() {
     closeBundle() {
       const rootDir = process.cwd();
       const distDir = path.join(rootDir, "dist");
-      const staticEntries = ["img", "favicon.svg", "icons.svg"];
+      const staticEntries = ["img", "favicon.svg", "favicon.png", "icons.svg"];
 
       for (const entry of staticEntries) {
         const source = path.join(rootDir, entry);

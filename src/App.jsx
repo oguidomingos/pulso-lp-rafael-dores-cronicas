@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { ConveniosAtendidos } from './convenios.jsx'
 
 const m = {
   clinicName: 'Lanner Especialidades',
@@ -28,69 +29,9 @@ const COLOR_GREEN = '#2e9e6e'
 const COLOR_BLUE_LIGHT = '#5bb4d0'
 const COLOR_BLUE_DEEP = '#1d4e6b'
 
-const AMHP_CONVENIOS = [
-  'AFEB BRASAL',
-  'AFFEGO',
-  'ANAFE SAÚDE',
-  'BACEN',
-  'BRB (SAÚDE BRB)',
-  'CAEME - GO',
-  'CAESAN',
-  'CAMED',
-  'CARE PLUS',
-  'CASEC (CODEVASF)',
-  'CASEMBRAPA (EMBRAPA)',
-  'CBMDF',
-  'CLIQUE MÉDICOS',
-  'CNTI',
-  'CONAB',
-  'EMBRATEL (TELOS)',
-  'FAPES (BNDES)',
-  'FASCAL',
-  'GDF SAÚDE',
-  'GEAP',
-  'GRAVIA',
-  'LIFE EMPRESARIAL',
-  'LUMINAR SAÚDE (EVIDA)',
-  'NOTRE DAME',
-  'OMINT SAÚDE',
-  'PF SAÚDE (POLÍCIA FEDERAL)',
-  'PLAN ASSISTE (MPU)',
-  'PLAS/JMU (STM)',
-  'PMDF - CONSULTAS MÉDICAS',
-  'PMDF - SAÚDE MENTAL E TERAPIAS',
-  'POSTAL SAÚDE (ECT) - (SUSPENSO)',
-  'PROASA',
-  'PRÓ-SAÚDE (CÂMARA DOS DEPUTADOS)',
-  'PRÓ-SAÚDE (TJDFT)',
-  'PRÓ-SER (STJ)',
-  'PRÓ-SOCIAL (TRF)',
-  'REAL GRANDEZA (DEMAIS PLANOS)',
-  'REAL GRANDEZA (SALVUS E SALUTEM)',
-  'SAÚDE CAIXA',
-  'SAÚDE PETROBRAS',
-  'SERPRO',
-  'SIS SENADO',
-  'STF-MED (STF)',
-  'TRE SAÚDE',
-  'TRT SAÚDE',
-  'TST SAÚDE',
-  'UNAFISCO SAÚDE (DEMAIS PLANOS)',
-  'UNAFISCO SAÚDE (PREMIUM)',
-]
-
 function openLeadModal(event) {
   event?.preventDefault()
   window.dispatchEvent(new CustomEvent('openLeadModal'))
-}
-
-function isIgPath() {
-  if (typeof window === 'undefined') return false
-  const normalizedPath = window.location.pathname
-    .replace(/\/index\.html$/, '')
-    .replace(/\/+$/, '')
-
-  return normalizedPath.endsWith('/ig')
 }
 
 // ── Ícones ──────────────────────────────────────────────────────────────────
@@ -516,98 +457,6 @@ function Stats() {
               <p className="text-gray-400 text-sm mt-1">{s.label}</p>
             </div>
           ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function ConveniosAMHP({ isOpen = false, onToggleOpen }) {
-  const conveniosPorLetra = AMHP_CONVENIOS.reduce((groups, convenio) => {
-    const letter = convenio[0]
-    groups[letter] = [...(groups[letter] || []), convenio]
-    return groups
-  }, {})
-
-  return (
-    <section id="convenios" className="scroll-mt-24 py-16 lg:py-24" style={{ backgroundColor: COLOR_SECTION }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-white lg:text-4xl">
-          Lista de convênios
-        </h2>
-
-        <div className="mt-8 overflow-hidden rounded-xl border border-white/10" style={{ backgroundColor: COLOR_CARD }}>
-          <button
-            type="button"
-            onClick={onToggleOpen}
-            aria-expanded={isOpen}
-            aria-controls="convenios-list"
-            className="grid w-full grid-cols-[48px_minmax(0,1fr)_36px] items-center gap-4 px-5 py-5 text-left transition-colors duration-300 hover:bg-white/5 sm:grid-cols-[54px_minmax(0,1fr)_40px] sm:px-6"
-          >
-            <span
-              className="flex h-12 w-12 items-center justify-center rounded-full sm:h-[54px] sm:w-[54px]"
-              style={{ backgroundColor: 'rgba(91,180,208,0.16)', color: COLOR_BLUE_LIGHT }}
-              aria-hidden="true"
-            >
-              <ShieldIcon />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-lg font-bold leading-tight text-white sm:text-xl">
-                Ver lista de convênios
-              </span>
-              <span className="mt-1 block text-sm text-gray-400">
-                {AMHP_CONVENIOS.length} convênios disponíveis para consulta
-              </span>
-            </span>
-            <span
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 transition-transform duration-300 sm:h-10 sm:w-10"
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.06)',
-                color: COLOR_BLUE_LIGHT,
-                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-              }}
-              aria-hidden="true"
-            >
-              <ChevronDownIcon />
-            </span>
-          </button>
-
-          <div
-            id="convenios-list"
-            className={`overflow-hidden border-t border-white/10 transition-all duration-500 ${isOpen ? 'max-h-[5200px] opacity-100' : 'max-h-0 opacity-0'}`}
-          >
-            <div className="grid gap-x-8 gap-y-6 px-5 py-6 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
-              {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
-                <div key={letter}>
-                  <div className="mb-4 flex items-center gap-3">
-                    <span
-                      className="flex h-10 w-10 items-center justify-center rounded-full text-base font-bold"
-                      style={{ backgroundColor: 'rgba(91,180,208,0.16)', color: COLOR_BLUE_LIGHT }}
-                    >
-                      {letter}
-                    </span>
-                    <span className="text-sm font-semibold text-gray-400">
-                      {convenios.length} {convenios.length === 1 ? 'convênio' : 'convênios'}
-                    </span>
-                  </div>
-                  <ul className="space-y-2">
-                    {convenios.map(convenio => (
-                      <li key={convenio} className="flex gap-2 text-sm leading-snug text-gray-200">
-                        <span className="mt-0.5 flex-shrink-0" style={{ color: COLOR_BLUE_LIGHT }}>
-                          <CheckIcon />
-                        </span>
-                        <span className="break-words">{convenio}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-8 flex justify-center">
-          <BtnWA size="lg">Confirmar meu convênio</BtnWA>
         </div>
       </div>
     </section>
@@ -1165,7 +1014,6 @@ function Footer() {
 export default function App() {
   const [leadModalOpen, setLeadModalOpen] = useState(false)
   const [conveniosOpen, setConveniosOpen] = useState(false)
-  const isIgPage = isIgPath()
 
   function scrollToConveniosSection() {
     window.setTimeout(() => {
@@ -1175,7 +1023,7 @@ export default function App() {
 
   function handleOpenConvenios(event) {
     event?.preventDefault()
-    if (!isIgPage) return
+    setConveniosOpen(true)
     scrollToConveniosSection()
   }
 
@@ -1191,18 +1039,31 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    if (isIgPage && ['#convenios', '#convenios-list'].includes(window.location.hash)) {
+    if (['#convenios', '#convenios-list'].includes(window.location.hash)) {
+      setConveniosOpen(true)
       scrollToConveniosSection()
     }
-  }, [isIgPage])
+  }, [])
 
   return (
     <>
-      <Header showConveniosLink={isIgPage} onConveniosClick={handleOpenConvenios} />
+      <Header showConveniosLink onConveniosClick={handleOpenConvenios} />
       <main>
-        <Hero showConveniosButton={isIgPage} onConveniosClick={handleOpenConvenios} />
+        <Hero showConveniosButton onConveniosClick={handleOpenConvenios} />
         <Stats />
-        {isIgPage && <ConveniosAMHP isOpen={conveniosOpen} onToggleOpen={handleToggleConvenios} />}
+        <ConveniosAtendidos
+          isOpen={conveniosOpen}
+          onToggleOpen={handleToggleConvenios}
+          CtaButton={BtnWA}
+          ShieldIcon={ShieldIcon}
+          CheckIcon={CheckIcon}
+          ChevronDownIcon={ChevronDownIcon}
+          palette={{
+            section: COLOR_SECTION,
+            card: COLOR_CARD,
+            accent: COLOR_BLUE_LIGHT,
+          }}
+        />
         <Especialidades />
         <Procedimentos />
         <DoctoraliaBand />
