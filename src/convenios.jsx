@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 export const CONVENIOS_ATENDIDOS = [
   'AFEB BRASAL',
   'AFFEGO',
@@ -50,80 +52,94 @@ export const CONVENIOS_ATENDIDOS = [
 ]
 
 export function ConveniosAtendidos({
-  isOpen = false,
-  onToggleOpen,
   CtaButton,
   ShieldIcon,
   CheckIcon,
-  ChevronDownIcon,
   palette = {},
 }) {
+  const [showAllConvenios, setShowAllConvenios] = useState(false)
+  const mobileConvenioLimit = 10
+  const mobileConvenios = showAllConvenios
+    ? CONVENIOS_ATENDIDOS
+    : CONVENIOS_ATENDIDOS.slice(0, mobileConvenioLimit)
+  const hiddenConveniosCount = CONVENIOS_ATENDIDOS.length - mobileConvenioLimit
+  const Cta = CtaButton
+  const Shield = ShieldIcon
+  const Check = CheckIcon
   const colors = {
     section: '#2b373f',
     card: '#0f3340',
     accent: '#5bb4d0',
     iconBackground: 'rgba(91,180,208,0.16)',
-    toggleBackground: 'rgba(255,255,255,0.06)',
     ...palette,
   }
+
   const conveniosPorLetra = CONVENIOS_ATENDIDOS.reduce((groups, convenio) => {
     const letter = convenio[0]
     groups[letter] = [...(groups[letter] || []), convenio]
     return groups
   }, {})
-  const Cta = CtaButton
-  const Shield = ShieldIcon
-  const Check = CheckIcon
-  const ChevronDown = ChevronDownIcon
 
   return (
     <section id="convenios" className="scroll-mt-24 py-16 lg:py-24" style={{ backgroundColor: colors.section }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-white lg:text-4xl">
-          Lista de convênios
-        </h2>
+        <div className="max-w-3xl">
+          <h2 className="text-3xl font-bold text-white lg:text-4xl">
+            Lista de convênios
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-gray-300">
+            Confira alguns dos convênios atendidos e, se tiver dúvida sobre cobertura, confirme com a equipe antes do agendamento.
+          </p>
+        </div>
 
-        <div className="mt-8 overflow-hidden rounded-xl border border-white/10" style={{ backgroundColor: colors.card }}>
-          <button
-            type="button"
-            onClick={onToggleOpen}
-            aria-expanded={isOpen}
-            aria-controls="convenios-list"
-            className="grid w-full grid-cols-[48px_minmax(0,1fr)_36px] items-center gap-4 px-5 py-5 text-left transition-colors duration-300 hover:bg-white/5 sm:grid-cols-[54px_minmax(0,1fr)_40px] sm:px-6"
-          >
-            <span
-              className="flex h-12 w-12 items-center justify-center rounded-full sm:h-[54px] sm:w-[54px]"
-              style={{ backgroundColor: colors.iconBackground, color: colors.accent }}
-              aria-hidden="true"
-            >
-              <Shield />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-lg font-bold leading-tight text-white sm:text-xl">
-                Ver lista de convênios
+        <div id="convenios-list" className="mt-8 overflow-hidden rounded-2xl border border-white/10" style={{ backgroundColor: colors.card }}>
+          <div className="grid gap-7 p-5 sm:p-6 lg:grid-cols-[0.45fr_1.55fr] lg:p-8">
+            <div className="flex items-start gap-4 lg:block">
+              <span
+                className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full"
+                style={{ backgroundColor: colors.iconBackground, color: colors.accent }}
+                aria-hidden="true"
+              >
+                <Shield />
               </span>
-              <span className="mt-1 block text-sm text-gray-400">
-                {CONVENIOS_ATENDIDOS.length} convênios disponíveis para consulta
-              </span>
-            </span>
-            <span
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 transition-transform duration-300 sm:h-10 sm:w-10"
-              style={{
-                backgroundColor: colors.toggleBackground,
-                color: colors.accent,
-                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-              }}
-              aria-hidden="true"
-            >
-              <ChevronDown />
-            </span>
-          </button>
+              <div className="lg:mt-5">
+                <h3 className="text-xl font-bold text-white">
+                  Convênios disponíveis
+                </h3>
+                <p className="mt-1 text-sm text-gray-400">
+                  {CONVENIOS_ATENDIDOS.length} convênios para consulta.
+                </p>
+              </div>
+            </div>
 
-          <div
-            id="convenios-list"
-            className={`overflow-hidden border-t border-white/10 transition-all duration-500 ${isOpen ? 'max-h-[5200px] opacity-100' : 'max-h-0 opacity-0'}`}
-          >
-            <div className="grid gap-x-8 gap-y-6 px-5 py-6 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
+            <div className="sm:hidden">
+              <div className="grid gap-3" id="convenios-list-mobile">
+                {mobileConvenios.map((convenio) => (
+                  <span
+                    key={convenio}
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.10] px-4 py-2 text-center text-sm font-bold leading-snug text-white"
+                  >
+                    {convenio}
+                  </span>
+                ))}
+              </div>
+
+              {hiddenConveniosCount > 0 && (
+                <button
+                  type="button"
+                  aria-expanded={showAllConvenios}
+                  aria-controls="convenios-list-mobile"
+                  onClick={() => setShowAllConvenios((current) => !current)}
+                  className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-base font-bold transition hover:bg-gray-100"
+                  style={{ color: colors.card }}
+                >
+                  <span>{showAllConvenios ? 'Ver menos convênios' : 'Ver mais convênios'}</span>
+                  <span aria-hidden="true">{showAllConvenios ? '↑' : '↓'}</span>
+                </button>
+              )}
+            </div>
+
+            <div className="hidden gap-x-8 gap-y-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
               {Object.entries(conveniosPorLetra).map(([letter, convenios]) => (
                 <div key={letter}>
                   <div className="mb-4 flex items-center gap-3">
@@ -138,7 +154,7 @@ export function ConveniosAtendidos({
                     </span>
                   </div>
                   <ul className="space-y-2">
-                    {convenios.map(convenio => (
+                    {convenios.map((convenio) => (
                       <li key={convenio} className="flex gap-2 text-sm leading-snug text-gray-200">
                         <span className="mt-0.5 flex-shrink-0" style={{ color: colors.accent }}>
                           <Check />
@@ -153,9 +169,11 @@ export function ConveniosAtendidos({
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <Cta size="lg">Confirmar meu convênio</Cta>
-        </div>
+        {Cta && (
+          <div className="mt-8 flex justify-center">
+            <Cta size="lg">Confirmar meu convênio</Cta>
+          </div>
+        )}
       </div>
     </section>
   )

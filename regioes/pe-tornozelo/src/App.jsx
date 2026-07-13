@@ -185,27 +185,44 @@ function Hero({ onConveniosClick }) {
               {REGION.hero.subhead}
             </p>
             <div className="flex flex-wrap gap-3 mb-8">
-              {heroHighlights.map(({ text, icon: Icon }) => (
-                <span
-                  key={text}
-                  className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full border"
-                  style={{
-                    color: COLOR_MINT,
-                    backgroundColor: 'rgba(184,221,224,0.08)',
-                    borderColor: 'rgba(184,221,224,0.22)',
-                  }}
-                >
-                  <Icon className="w-5 h-5" />
-                  {text}
-                </span>
-              ))}
+              {heroHighlights.map(({ text, icon: Icon }) => {
+                const isConveniosHighlight = text.toLowerCase().includes('convênios')
+                const highlightClasses = 'flex items-center gap-2 text-sm px-3 py-1.5 rounded-full border transition-colors'
+                const highlightStyle = {
+                  color: COLOR_MINT,
+                  backgroundColor: 'rgba(184,221,224,0.08)',
+                  borderColor: 'rgba(184,221,224,0.22)',
+                }
+
+                if (isConveniosHighlight && onConveniosClick) {
+                  return (
+                    <a
+                      key={text}
+                      href="#convenios"
+                      onClick={onConveniosClick}
+                      className={`${highlightClasses} hover:bg-white/10`}
+                      style={highlightStyle}
+                    >
+                      <Icon className="w-5 h-5" />
+                      {text}
+                    </a>
+                  )
+                }
+
+                return (
+                  <span key={text} className={highlightClasses} style={highlightStyle}>
+                    <Icon className="w-5 h-5" />
+                    {text}
+                  </span>
+                )
+              })}
             </div>
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <BtnWA size="lg" className="justify-center">
                 Agendar Avaliação
               </BtnWA>
-              <button
-                type="button"
+              <a
+                href="#convenios"
                 onClick={onConveniosClick}
                 aria-controls="convenios-list"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-white bg-white px-8 py-4 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-gray-100"
@@ -213,7 +230,7 @@ function Hero({ onConveniosClick }) {
               >
                 <ShieldIcon />
                 Ver lista de convênios
-              </button>
+              </a>
             </div>
             <div className="mt-8 flex items-center gap-4">
               <div className="flex gap-0.5">
@@ -266,7 +283,7 @@ function Hero({ onConveniosClick }) {
 }
 
 // ── Stats ────────────────────────────────────────────────────────────────────
-function Stats() {
+function Stats({ onConveniosClick }) {
   const stats = [
     { value: '+45', label: 'Convênios Atendidos' },
     { value: `+${m.stats.procedures}`, label: 'Procedimentos Realizados' },
@@ -277,16 +294,37 @@ function Stats() {
     <section style={{ backgroundColor: COLOR_NAVY }} className="relative z-10 -mt-6 lg:-mt-10 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
-          {stats.map((s, index) => (
-            <div
-              key={s.label}
-              className={`text-center min-h-28 flex flex-col items-center justify-center px-4 py-4 ${index % 2 === 0 ? 'border-r' : ''} ${index < 2 ? 'border-b' : ''} lg:border-b-0 ${index < stats.length - 1 ? 'lg:border-r' : 'lg:border-r-0'}`}
-              style={{ borderColor: 'rgba(184,221,224,0.18)' }}
-            >
-              <p className="text-3xl lg:text-4xl font-bold" style={{ color: COLOR_MINT }}>{s.value}</p>
-              <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.label}</p>
-            </div>
-          ))}
+          {stats.map((s, index) => {
+            const isConveniosItem = s.label.toLowerCase().includes('convênios')
+            const content = (
+              <>
+                <p className="text-3xl lg:text-4xl font-bold" style={{ color: COLOR_MINT }}>{s.value}</p>
+                <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.label}</p>
+              </>
+            )
+            const itemClasses = `text-center min-h-28 flex flex-col items-center justify-center px-4 py-4 ${index % 2 === 0 ? 'border-r' : ''} ${index < 2 ? 'border-b' : ''} lg:border-b-0 ${index < stats.length - 1 ? 'lg:border-r' : 'lg:border-r-0'}`
+            const itemStyle = { borderColor: 'rgba(184,221,224,0.18)' }
+
+            if (isConveniosItem && onConveniosClick) {
+              return (
+                <a
+                  key={s.label}
+                  href="#convenios"
+                  onClick={onConveniosClick}
+                  className={`${itemClasses} transition-colors hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-inset`}
+                  style={{ ...itemStyle, '--tw-ring-color': COLOR_MINT }}
+                >
+                  {content}
+                </a>
+              )
+            }
+
+            return (
+              <div key={s.label} className={itemClasses} style={itemStyle}>
+                {content}
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -728,7 +766,7 @@ function ComoFunciona() {
 }
 
 // ── Diferenciais ─────────────────────────────────────────────────────────────
-function Diferenciais() {
+function Diferenciais({ onConveniosClick }) {
   const items = [
     { icon: UserIcon, title: '+5.000 pacientes atendidos', desc: 'Experiência consolidada em ortopedia, traumatologia e medicina da dor.' },
     { icon: ScalpelIcon, title: '+500 cirurgias realizadas', desc: 'Indicação criteriosa, sempre individualizada para cada caso clínico.' },
@@ -747,13 +785,36 @@ function Diferenciais() {
           </h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map(({ title, desc, icon: Icon }) => (
-            <LightCard key={title}>
-              <IconChip><Icon className="w-6 h-6" /></IconChip>
-              <h3 className="text-base font-bold mb-2" style={{ color: COLOR_NAVY }}>{title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: COLOR_MUTED }}>{desc}</p>
-            </LightCard>
-          ))}
+          {items.map(({ title, desc, icon: Icon }) => {
+            const isConveniosItem = title.toLowerCase().includes('convênios')
+            const content = (
+              <>
+                <IconChip><Icon className="w-6 h-6" /></IconChip>
+                <h3 className="text-base font-bold mb-2" style={{ color: COLOR_NAVY }}>{title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: COLOR_MUTED }}>{desc}</p>
+              </>
+            )
+
+            if (isConveniosItem && onConveniosClick) {
+              return (
+                <a
+                  key={title}
+                  href="#convenios"
+                  onClick={onConveniosClick}
+                  className="block rounded-2xl p-6 transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2"
+                  style={{ backgroundColor: COLOR_WHITE, border: `1px solid ${COLOR_BORDER}`, outlineColor: COLOR_TEAL_DEEP }}
+                >
+                  {content}
+                </a>
+              )
+            }
+
+            return (
+              <LightCard key={title}>
+                {content}
+              </LightCard>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -1051,22 +1112,20 @@ function Footer() {
 // ── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [leadModalOpen, setLeadModalOpen] = useState(false)
-  const [conveniosOpen, setConveniosOpen] = useState(false)
 
   function scrollToConveniosSection() {
     window.setTimeout(() => {
-      document.getElementById('convenios')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      const conveniosSection = document.getElementById('convenios')
+      if (!conveniosSection) return
+
+      window.history.pushState(null, '', '#convenios')
+      conveniosSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 0)
   }
 
   function handleOpenConvenios(event) {
     event?.preventDefault()
-    setConveniosOpen(true)
     scrollToConveniosSection()
-  }
-
-  function handleToggleConvenios() {
-    setConveniosOpen(open => !open)
   }
 
   useEffect(() => {
@@ -1078,7 +1137,6 @@ export default function App() {
 
   useEffect(() => {
     if (['#convenios', '#convenios-list'].includes(window.location.hash)) {
-      setConveniosOpen(true)
       scrollToConveniosSection()
     }
   }, [])
@@ -1088,14 +1146,11 @@ export default function App() {
       <Header onConveniosClick={handleOpenConvenios} />
       <main>
         <Hero onConveniosClick={handleOpenConvenios} />
-        <Stats />
+        <Stats onConveniosClick={handleOpenConvenios} />
         <ConveniosAtendidos
-          isOpen={conveniosOpen}
-          onToggleOpen={handleToggleConvenios}
           CtaButton={BtnWA}
           ShieldIcon={ShieldIcon}
           CheckIcon={CheckIcon}
-          ChevronDownIcon={ChevronDownIcon}
           palette={{
             section: COLOR_NAVY_DK,
             card: COLOR_NAVY_DEEP,
@@ -1110,6 +1165,7 @@ export default function App() {
         <DoctoraliaBand />
         <Sobre />
         <ComoFunciona />
+        <Diferenciais onConveniosClick={handleOpenConvenios} />
         <Depoimentos />
         <Localizacao />
         <FAQ />
